@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        MouseHunt AutoBot UPDATED
-// @author      Nevocaine
-// @version    	1.5.1
-// @description Script automating MH horn sounding and gifting, mostly functional as of 15/08/2022. Updating the outdated script by nobodyrandom, who adapted the original versions by CnN and Ooi.
+// @author      Nevocaine, mousehunter378
+// @version    	1.6.1
+// @description Script automating MH horn sounding and gifting, mostly functional as of 30/11/2022. Updating the outdated script from nobodyrandom, who adapted the original versions by CnN and Ooi.
 // @icon        https://raw.githubusercontent.com/nobodyrandom/mhAutobot/master/resource/mice.png
 // @require     https://code.jquery.com/jquery-2.2.2.min.js
 // @require     https://greasyfork.org/scripts/7601-parse-db-min/code/Parse%20DB%20min.js?version=132819
@@ -57,10 +57,10 @@ var checkTimeDelayMin = 15;
 var checkTimeDelayMax = 120;
 
 // // Play sound when encounter king's reward (true/false)
-var isKingWarningSound = true;
+var isKingWarningSound = false;
 
 // // Which sound to play when encountering king's reward (need to be .mp3)
-var kingWarningSound = 'https://cdn.discordapp.com/attachments/535826651980890113/930830399054164019/resource_horn.mp3';
+var kingWarningSound = 'https://raw.githubusercontent.com/nobodyrandom/libs/master/resource/horn.mp3';
 
 // // Which email to send KR notiff to (leave blank to disable feature)
 var kingRewardEmail = '';
@@ -113,7 +113,7 @@ var kingsRewardRetryMax = 3;
 var saveKRImage = true;
 
 // // Maximum number of KR image to be saved into localStorage
-var maxSaveKRImage = 999;
+var maxSaveKRImage = 75;
 
 // // The script will pause if player at different location that hunt location set before. (true/false)
 // // Note: Make sure you set showTimerInPage to true in order to know what is happening.
@@ -169,27 +169,27 @@ var objTrapList = {
 
 // // Trap Collection
 var objTrapCollection = {
-    weapon: ["Circlet of Pursuing Trap", "Circlet of Seeking Trap", "Dragon Slayer Cannon", "Chrome Storm Wrought Ballista", "S.T.I.N.G.E.R. Trap", "S.T.I.N.G. Trap", "Slumbering Boulder Trap", "Sleeping Stone Trap", "Chrome Thought Obliterator Trap", "Thought Obliterator Trap", "Tome of the Mind's Eye Trap", "Thought Manipulator Trap", "Charming PrinceBot", "Chrome MonstroBot", "Smoldering Stone Sentinel", "Chrome Celestial Dissonance", "Chrome Temporal Turbine", "Dark Magic Mirrors Trap", "Chrome Temporal Turbine", "Temporal Turbine", "Chrome Grand Arcanum ", "Rocket Propelled Gavel", "Timesplit Dissonance Weapon", "Meteor Prison Core", "Christmas Cactus", "Sprinkly Cupcake Surprise", "New Horizon", "New Year's Fireworks", "Holiday Hydro Hailstone", "Festive Forgotten Fir", "Interdimensional Crossbow", "Droid Archmagus", "Sandcastle Shard", "Crystal Mineral Crusher", "Biomolecular Re-atomizer", "Chrome Arcane Capturing Rod", "Law Laser", "Zugzwang's Ultimate Move", "2010 Blastoff", "2012 Big Boom", "500 Pound Spiked Crusher", "Ambrosial Portal", "Ambush", "Ancient Box", "Ancient Gauntlet", "Ancient Spear Gun", "Arcane Blast", "Arcane Capturing Rod Of Never Yielding Mystery", "Bandit Deflector", "Birthday Candle Kaboom", "Birthday Party Piñata Bonanza", "Blackstone Pass", "Bottomless Grave", "Brain Extractor", "Bubbles: The Party Crasher", "Cackle Lantern", "Candy Crusher", "Chesla's Revenge", "Christmas Cracker", "Chrome DeathBot", "Chrome DrillBot", "Chrome MonstroBot", "Chrome Nannybot", "Chrome Oasis Water Node", "Chrome Onyx Mallet", "Chrome Phantasmic Oasis", "Chrome RhinoBot", "Chrome Sphynx Wrath", "Chrome Tacky Glue", "Clockapult of Time", "Clockapult of Winter Past", "Clockwork Portal", "Crystal Crucible", "Crystal Tower", "Digby DrillBot", "Dimensional Chest", "Double Diamond Adventure", "Dragon Lance", "Dreaded Totem ", "Endless Labyrinth", "Engine Doubler", "Enraged RhinoBot", "Event Horizon", "Explosive Toboggan Ride", "Festive Gauntlet Crusher", "Fluffy DeathBot", "Focused Crystal Laser", "The Forgotten Art of Dance", "Forgotten Pressure Plate ", "Giant Speaker", "Gingerbread House Surprise", "Glacier Gatler", "Gorgon", "Grand Arcanum", "Grungy DeathBot", "Harpoon Gun", "Heat Bath", "High Tension Spring", "HitGrab Horsey", "HitGrab Rainbow Rockin' Horse", "HitGrab Rockin' Horse", "Horrific Venus Mouse", "Ice Blaster", "Ice Maiden", "Icy RhinoBot", "Infinite Labyrinth", "Isle Idol ", "Isle Idol", "Isle Idol ", "Kraken Chaos", "The Law Draw", "Maniacal Brain Extractor", "Mouse DeathBot", "Mouse Hot Tub", "Mouse Mary O'Nette", "Mouse Rocketine", "Mouse Trebuchet", "Multi-Crystal Laser", "Christmas Crystalabra", "Mutated Venus Mouse", "Mysteriously unYielding Null-Onyx Rampart of Cascading Amperes", "Mystic Pawn Pincher", "Nannybot", "Net Cannon", "Ninja Ambush", "Nutcracker Nuisance", "NVMRC Forcefield", "Oasis Water Node", "Obelisk of Incineration", "Obelisk of Slumber", "Obvious Ambush", "Onyx Mallet", "PartyBot", "Phantasmic Oasis", "Pneumatic Tube ", "Pumpkin Pummeler", "Reaper's Perch", "Rewers Riposte", "RhinoBot", "Rune Shark", "S.A.M. F.E.D. DN-5", "S.L.A.C.", "S.L.A.C. II", "S.U.P.E.R. Scum Scrubber", "Sandstorm MonstroBot", "Sandtail Sentinel", "School of Sharks", "Scum Scrubber", "Shrink Ray ", "Sinister Portal", "Snow Barrage", "Snowglobe", "Soul Catcher", "Soul Harvester", "Sphynx Wrath", "Stale Cupcake Golem", "Steam Laser Mk. I", "Steam Laser Mk. II", "Steam Laser Mk. II (Broken!)", "Steam Laser Mk. III", "Supply Grabber", "Swiss Army Mouse", "Tacky Glue ", "Tarannosaurus Rex", "Technic Pawn Pincher", "Temporal Turbine", "Terrifying Spider", "Thorned Venus Mouse", "Ultra MegaMouser MechaBot", "Veiled Vine", "Venus Mouse", "Warden Slayer", "Warpath Thrasher", "Wrapped Gift", "Zugzwang's First Move", "Zugzwang's Last Move", "Zurreal's Folly"],
-    base: ["Adorned Empyrean Refractor Base", "Signature Series Denture Base", "Prestige Base", "Ancient Booster Base", "Ultimate Iceberg Base", "Clockwork Base", "Sprinkly Sweet Cupcake Birthday Base", "Dog Jade Base", "Rooster Jade Base", "2017 New Year's Base", "Aqua Base", "Attuned Enerchi Induction Base", "Bacon Base", "Bamboozler Base", "Birthday Cake Base", "Birthday Dragée Cake Base", "Bronze Tournament Base", "Candy Cane Base", "Carrot Birthday Cake Base", "Cheesecake Base", "Chocolate Birthday Cake Base", "Claw Shot Base", "Crushed Birthday Cake Base", "Cupcake Birthday Base", "Deep Freeze Base", "Dehydration Base", "Depth Charge Base", "Dragon Jade Base", "Eerie Base", "Eerier Base", "Enerchi Induction Base", "Explosive Base", "Extra Sweet Cupcake Birthday Base", "Fan Base", "Firecracker Base", "Fissure Base", "Fracture Base", "Gingerbread Base", "Golden Tournament Base", "Hearthstone Base", "Horse Jade Base", "Hothouse Base", "Jade Base", "Labyrinth Base", "Living Base", "Magma Base", "Magnet Base", "Minotaur Base", "Molten Shrapnel Base", "Monkey Jade Base", "Monolith Base", "Papyrus Base", "Physical Brace Base", "Polar Base", "Polluted Base", "Refined Pollutinum Base", "Remote Detonator Base", "Rift Base", "Runic Base", "Seasonal Base", "Sheep Jade Base", "Silver Tournament Base", "Skello-ton Base", "Snake Jade Base", "Soiled Base", "Spellbook Base", "Spiked Base", "Stone Base", "Tidal Base", "Tiki Base", "Tribal Base", "Tribal Kaboom Base", "Washboard Base", "Wooden Base", "Wooden Base with Target"],
-    bait: ["Extra Rich Cloud Cheescake", "Cloud Cheesecake", "Magical Rancid Radioactive Blue Cheese", "Undead String Emmental", "Ancient String Cheese", "Runic String Cheese", "Sunrise Cheese", "Dumpling Cheese", "Crescent Cheese", "Ancient Cheese", "Arctic Asiago Cheese", "Ascended Cheese", "Brie Cheese", "Brie String Cheese", "Candy Corn Cheese", "Checkmate Cheese", "Cheddar Cheese", "Cherry Cheese", "Combat Cheese", "Creamy Havarti Cheese", "Crunchy Cheese", "Crunchy Havarti Cheese", "Cupcake Colby", "Dewthief Camembert", "Diamond Cheese", "Duskshade Camembert", "Extra Sweet Cupcake Colby", "Festive Feta", "Fishy Fromage", "Fusion Fondue", "Galleon Gouda", "Gauntlet Cheese Tier 2", "Gauntlet Cheese Tier 3", "Gauntlet Cheese Tier 4", "Gauntlet Cheese Tier 5", "Gauntlet Cheese Tier 6", "Gauntlet Cheese Tier 7", "Gauntlet Cheese Tier 8", "Gemstone Cheese", "Ghoulgonzola Cheese", "Gilded Cheese", "Gingerbread Cheese", "Glowing Gruyere Cheese", "Glutter Cheese", "Gnarled Cheese", "Gouda Cheese", "Graveblossom Camembert", "Grilled Cheese", "Gumbo Cheese", "Inferno Havarti Cheese", "Lactrodectus Lancashire Cheese", "Limelight Cheese", "Lunaria Camembert", "Magical Havarti Cheese", "Magical String Cheese", "Maki Cheese", "Maki String Cheese", "Marble Cheese", "Marble String Cheese", "Marshmallow Monterey", "Master Fusion Cheese", "Mineral Cheese", "Moon Cheese", "Mozzarella Cheese", "Null Onyx Gorgonzola", "Nutmeg Cheese", "Onyx Gorgonzola", "Polluted Parmesan Cheese", "Pungent Havarti Cheese", "Radioactive Blue Cheese", "Rancid Radioactive Blue Cheese", "Rift Combat Cheese", "Rift Glutter Cheese", "Rift Rumble Cheese", "Rift Susheese Cheese", "Riftiago Cheese", "Resonator Cheese", "Rockforth Cheese", "Rumble Cheese", "Runic Cheese", "Runny Cheese", "Seasoned Gouda", "Shell Cheese", "Snowball Bocconcini", "Spicy Havarti Cheese", "SUPER|brie+", "Susheese Cheese", "Sweet Havarti Cheese", "Swiss Cheese", "Swiss String Cheese", "Terre Ricotta Cheese", "Toxic Brie", "Toxic SUPER|brie+", "Undead Emmental", "Vanilla Stilton Cheese", "Vengeful Vanilla Stilton Cheese", "White Cheddar Cheese", "Wicked Gnarly Cheese"],
-    trinket: ["Rift Airship Charm", "Ultimate Wealth Charm", "Super Enerchi Charm", "Rift Charm", "Nightlight Charm", "Rift Wealth Charm", "Rift Extreme Luck Charm", "Rift Luck Charm", "Rift Super Luck Charm", "Rift Antiskele Charm", "Realm Ripper Charm", "Timesplit Charm", "Lucky Valentine Charm", "Festive Anchor Charm", "2014 Charm", "2015 Charm", "2016 Charm", "2017 Charm", "Airship Charm", "Amplifier Charm", "Ancient Charm", "Antiskele Charm", "Artisan Charm", "Athlete Charm", "Attraction Charm", "Baitkeep Charm", "Black Powder Charm", "Blue Double Sponge Charm", "Brain Charm", "Bravery Charm", "Cackle Charm", "Cactus Charm", "Candy Charm", "Champion Charm", "Cherry Charm", "Chrome Charm", "Clarity Charm", "Compass Magnet Charm", "Crucible Cloning Charm", "Cupcake Charm", "Dark Chocolate Charm", "Derr Power Charm", "Diamond Boost Charm", "Door Guard Charm", "Dragonbane Charm", "Dragonbreath Charm", "Dreaded Charm", "Dusty Coal Charm", "Eggscavator Charge Charm", "Eggstra Charge Charm", "Eggstra Charm", "Elub Power Charm", "EMP400 Charm", "Empowered Anchor Charm", "Enerchi Charm", "Extra Spooky Charm", "Extra Sweet Cupcake Charm", "Extreme Ancient Charm", "Extreme Attraction Charm", "Extreme Luck Charm", "Extreme Polluted Charm", "Extreme Power Charm", "Extreme Wealth Charm", "Festive Ultimate Luck Charm", "Festive Ultimate Power Charm", "Firecracker Charm", "First Ever Charm", "Flamebane Charm", "Forgotten Charm", "Freshness Charm", "Gargantua Guarantee Charm", "Gemstone Boost Charm", "Gilded Charm", "Glowing Gourd Charm", "Gnarled Charm", "Golden Anchor Charm", "Greasy Glob Charm", "Growth Charm", "Grub Salt Charm", "Grub Scent Charm", "Grubling Bonanza Charm", "Grubling Chow Charm", "Haunted Ultimate Luck Charm", "Horsepower Charm", "Hydro Charm", "Lantern Oil Charm", "Luck Charm", "Lucky Power Charm", "Lucky Rabbit Charm", "Magmatic Crystal Charm", "Mining Charm", "Mobile Charm", "Monger Charm", "Monkey Fling Charm", "Nanny Charm", "Nerg Power Charm", "Nightshade Farming Charm", "Nitropop Charm", "Oxygen Burst Charm", "Party Charm", "Polluted Charm", "Power Charm", "Prospector's Charm", "Rainbow Luck Charm", "Ramming Speed Charm", "Red Double Sponge Charm", "Red Sponge Charm", "Regal Charm", "Rift Power Charm", "Rift Ultimate Luck Charm", "Rift Ultimate Lucky Power Charm", "Rift Ultimate Power Charm", "Rift Vacuum Charm", "Roof Rack Charm", "Rook Crumble Charm", "Rotten Charm", "Safeguard Charm", "Scholar Charm", "Scientist's Charm", "Searcher Charm", "Shadow Charm", "Shamrock Charm", "Shattering Charm", "Sheriff's Badge Charm", "Shielding Charm", "Shine Charm", "Shortcut Charm", "Smart Water Jet Charm", "Snakebite Charm", "Snowball Charm", "Soap Charm", "Softserve Charm", "Spellbook Charm", "Spiked Anchor Charm", "Sponge Charm", "Spooky Charm", "Spore Charm", "Stagnant Charm", "Sticky Charm", "Striker Charm", "Super Ancient Charm", "Super Attraction Charm", "Super Brain Charm", "Super Cactus Charm", "Super Luck Charm", "Super Nightshade Farming Charm", "Super Polluted Charm", "Super Power Charm", "Super Regal Charm", "Rift Super Vacuum Charm", "Super Rotten Charm", "Super Salt Charm", "Super Soap Charm", "Super Spore Charm", "Super Warpath Archer Charm", "Super Warpath Cavalry Charm", "Super Warpath Commander's Charm", "Super Warpath Mage Charm", "Super Warpath Scout Charm", "Super Warpath Warrior Charm", "Super Wealth Charm", "Supply Schedule Charm", "Tarnished Charm", "Taunting Charm", "Treasure Trawling Charm", "Ultimate Anchor Charm", "Ultimate Ancient Charm", "Ultimate Attraction Charm", "Ultimate Charm", "Ultimate Luck Charm", "Ultimate Lucky Power Charm", "Ultimate Polluted Charm", "Ultimate Power Charm", "Ultimate Spore Charm", "Uncharged Scholar Charm", "Unstable Charm", "Valentine Charm", "Warpath Archer Charm", "Warpath Cavalry Charm", "Warpath Commander's Charm", "Warpath Mage Charm", "Warpath Scout Charm", "Warpath Warrior Charm", "Water Jet Charm", "Wax Charm", "Wealth Charm", "Wild Growth Charm", "Winter Builder Charm", "Winter Charm", "Winter Hoarder Charm", "Winter Miser Charm", "Winter Screw Charm", "Winter Spring Charm", "Winter Wood Charm", "Yellow Double Sponge Charm", "Yellow Sponge Charm"]
+    weapon: ["Circlet of Pursuing", "Circlet of Seeking", "New Horizon", "Golem Guardian", "Event Horizon", "Infinite Winter Horizon", "Droid Archmagus", "Chrome Grand Arcanum", "Chrome Arcane Capturing Rod Of Never Yielding Mystery", "Grand Arcanum", "Boiling Cauldron", "Anniversary Arcane Capturing Rod Of Never Yielding Mystery", "Arcane Capturing Rod Of Never Yielding Mystery", "Sprinkly Cupcake Surprise", "Arcane Blast", "Nutcracker Nuisance", "Obelisk of Incineration", "Obelisk of Slumber", "Circlet of Pursuing", "Circlet of Seeking", "New Horizon", "Event Horizon", "Infinite Winter Horizon", "Droid Archmagus", "Chrome Grand Arcanum", "Chrome Arcane Capturing Rod Of Never Yielding Mystery", "Grand Arcanum", "Boiling Cauldron", "Anniversary Arcane Capturing Rod Of Never Yielding Mystery", "Arcane Capturing Rod Of Never Yielding Mystery", "Sprinkly Cupcake Surprise", "Arcane Blast", "Nutcracker Nuisance", "Obelisk of Incineration", "Obelisk of Slumber", "Dragon Slayer Cannon", "Chrome Storm Wrought Ballista", "Storm Wrought Ballista", "Tulip Turret", "Dragonvine Ballista", "Blazing Ember Spear", "Ice Maiden", "Cemetery Gate Grappler", "Harrowing Holiday Harpoon Harp", "Dragon Lance", "Chrome Thought Obliterator", "Thought Obliterator", "Tome of the Mind\'s Eye", "Thought Manipulator", "Infinite Labyrinth", "Endless Labyrinth", "Crystal Mineral Crusher", "Crystal Crucible", "Festive Forgotten Fir", "Stale Cupcake Golem", "Scarlet Ember Root", "Tarannosaurus Rex", "Father Winter\'s Timepiece", "The Forgotten Art of Dance", "Anniversary Ancient Box", "Ancient Box", "Forgotten Pressure Plate", "Chrome School of Sharks", "Queso Fount", "School of Sharks", "Rune Shark", "Chrome Phantasmic Oasis", "Phantasmic Oasis", "Bubbles: The Party Crasher", "Chrome Oasis Water Node", "Oasis Water Node", "Haunted Shipwreck", "Steam Laser Mk. II", "Steam Laser Mk. III", "Glacier Gatler", "Heat Bath", "S.S. Scoundrel Sleigher", "Steam Laser Mk. I", "Paradise Falls", "S.U.P.E.R. Scum Scrubber", "Ice Blaster", "Ancient Spear Gun", "Holiday Hydro Hailstone", "Isle Idol", "Double Diamond Adventure", "Kraken Chaos", "Harpoon Gun", "Scum Scrubber", "Net Cannon", "Explosive Toboggan Ride", "Steam Laser Mk. II (Broken!)", "S.T.I.N.G.E.R.", "Ember Prison Core", "S.T.I.N.G.", "Meteor Prison Core", "Judge Droid", "The Holiday Express", "Limited Edition", "Engine Doubler", "Queso Factory", "Bandit Deflector", "Surprise Party", "Supply Grabber", "Christmas Cactus", "Law Laser", "S.L.A.C. II", "The Law Draw", "S.L.A.C.", "Charming PrinceBot", "Smoldering Stone Sentinel", "Chrome MonstroBot", "Sandstorm MonstroBot", "Sandtail Sentinel", "Chrome RhinoBot", "Rocket Propelled Gavel", "Warden Slayer", "New Year\'s Fireworks", "Enraged RhinoBot", "Chrome Onyx Mallet", "Carousel Charger", "Icy RhinoBot", "RhinoBot", "Warpath Thrasher", "Chrome DrillBot", "Onyx Mallet", "Digby DrillBot", "Chrome DeathBot", "Anniversary DeathBot", "Christmas Cracker", "Fluffy DeathBot", "Grungy DeathBot", "Mouse DeathBot", "PartyBot", "Birthday Party Piñata Bonanza", "Birthday Candle Kaboom", "NVMRC Forcefield", "Snowglobe", "Pneumatic Tube", "Ultra MegaMouser MechaBot", "Shrink Ray", "HitGrab Rainbow Rockin\' Horse", "HitGrab Rockin\' Horse", "Festive Gauntlet Crusher", "Swiss Army Mouse", "Wrapped Gift", "Ancient Gauntlet", "Mouse Rocketine", "Mouse Trebuchet", "HitGrab Horsey", "500 Pound Spiked Crusher", "Mouse Mary O'Nette", "High Tension Spring", "Mouse Hot Tub", "Chrome Tacky Glue", "Tacky Glue", "Chrome Celestial Dissonance", "Celestial Dissonance", "Timesplit Dissonance", "Mysteriously unYielding Null-Onyx Rampart of Cascading Amperes", "Focused Crystal Laser", "Biomolecular Re-atomizer", "Darkest Chocolate Bunny", "Rift Glacier Gatler", "Christmas Crystalabra", "Wacky Inflatable Party People", "Multi-Crystal Laser", "Crystal Tower", "Dark Magic Mirrors", "Chrome Temporal Turbine", "Cheese Seeking Lighthouse", "Temporal Turbine", "Goldfrost Crossbow", "Interdimensional Crossbow", "Moonbeam Barrier", "Clockwork Portal", "The Haunted Manor", "Anniversary Reaper\'s Perch", "Reaper\'s Perch", "Dreaded Totem", "Sandcastle Shard", "Clockapult of Time", "Clockapult of Winter Past", "Maniacal Brain Extractor", "Admiral\'s Galleon", "Terrifying Spider", "Cackle Lantern", "Soul Harvester", "Brain Extractor", "Gorgon", "Candy Crusher", "Creepy Coffin", "Soul Catcher", "Bottomless Grave", "Chrome Nannybot", "Pumpkin Pummeler", "Sinister Portal", "Ambrosial Portal", "Slumbering Boulder", "Gouging Geyserite", "Sleeping Stone", "Chrome Sphynx Wrath", "Sphynx Wrath", "Dimensional Chest ", "Cloaking Droid", "Chesla\'s Revenge", "Zugzwang\'s Ultimate Move", "Zugzwang\'s First Move", "Well of Wisdom", "Veiled Vine", "Horrific Venus Mouse", "Thorned Venus Mouse", "Blackstone Pass", "Obvious Ambush", "Anniversary Ambush", "Ambush", "Ninja Ambush", "Zurreal\'s Folly", "Rewers Riposte", "Giant Speaker", "S.A.M. F.E.D. DN-5", "2010 Blastoff", "2012 Big Boom", "Mutated Venus Mouse", "Zugzwang\'s Last Move", "Gingerbread House Surprise", "Venus Mouse", "Snow Barrage", "Mystic Pawn Pincher", "Technic Pawn Pincher"],
+    base: ["Adorned Empyrean Refractor Base", "Minotaur Base", "Clockwork Base", "Tidal Base", "Glowing Golem Guardian Base", "Spellbook Base", "Desert Heater Base", "Golden Tournament Base", "Thief Base", "Monolith Base", "Refined Pollutinum Base", "Attuned Enerchi Induction Base", "Polluted Base", "Prestige Base", "Fissure Base", "Depth Charge Base", "Living Grove Base", "Overgrown Ember Stone Base", "Forecaster Base", "Soiled Base", "Silver Tournament Base", "Papyrus Base", "Tiger Jade Base", "Dog Jade Base", "Ox Jade Base", "Pig Jade Base", "Rat Jade Base", "Gemology Base", "Electromagnetic Meteorite Base", "Molten Shrapnel Base", "Monkey Jade Base", "Rooster Jade Base", "Alchemist\'s Cookbook Base", "Bamboozler Base", "Chocolate Bar Base", "Deadwood Plank Base", "Hallowed Ground Base", "Sheep Jade Base", "Horse Jade Base", "Condemned Base", "Ice Cream Cake Base", "Birthday Ube Cake Base", "Birthday Confetti Cake Base", "Iceberg Boiler Base", "Spiked Base", "Birthday Banana Cake Base", "10 Layer Birthday Cake Base", "Dragon Jade Base", "Eerier Base", "Jade Base", "Mist Meter Regulator Base", "Remote Detonator Base", "Snake Jade Base", "Sprinkly Sweet Cupcake Birthday Base", "Eerie Base", "Extra Sweet Cupcake Birthday Base", "Magma Base", "Cupcake Birthday Base", "Bronze Tournament Base", "Explosive Base", "Firecracker Base", "Skello-ton Base", "Ancient Booster Base", "Candy Cane Base", "Physical Brace Base", "Seasonal Base", "Vegetation Base", "Rift Mist Diffuser Base", "Living Base", "Rift Base", "Claw Shot Base", "Magnet Base", "Washboard Base", "Aurora Base", "Hothouse Base", "Aqua Base", "Signature Series Denture Base", "Gingerbread Base", "Dehydration Base", "2022 New Year\'s Base", "2021 New Year\'s Base", "2020 New Year\'s Base", "Tiki Base", "Tribal Kaboom Base", "Runic Base", "All Season Express Track Base", "Elixir Exchanger Base", "Fracture Base", "Polar Base", "2017 New Year\'s Base", "2018 New Year\'s Base", "2019 New Year\'s Base", "Ultimate Iceberg Base", "Bacon Base", "Hearthstone Base", "Crushed Birthday Cake Base", "Tribal Base", "Fan Base", "Birthday Cake Base", "Chocolate Birthday Cake Base", "Birthday Dragée Cake Base", "Carrot Birthday Cake Base", "Cheesecake Base", "Treasure Seeker Base", "Stone Base", "Labyrinth Base", "Black Widow Base", "Denture Base", "Enerchi Induction Base", "Furoma Base", "Compass Magnet Base", "Festive Winter Hunt Base", "Gift of the Day Base", "Seasonal Gift of the Day Base", "Wooden Base with Target", "Deep Freeze Base", "Wooden Base"],
+    bait: ["Abominable Asiago", "Ancient Cheese", "Ancient String Cheese", "Arctic Asiago Cheese", "Ascended Cheese", "Bland Queso", "Bonefort Cheese", "Brie Cheese", "Brie String Cheese", "Candy Corn Cheese", "Checkmate Cheese", "Chedd-Ore Cheese", "Cheddar Cheese", "Cherry Cheese", "Cloud Cheesecake", "Coggy Colby Cheese", "Combat Cheese", "Creamy Havarti Cheese", "Crescent Cheese", "Crimson Cheese", "Crunchy Cheese", "Crunchy Havarti Cheese", "Cupcake Colby", "Dewthief Camembert", "Diamond Cheese", "Dragonvine Cheese", "Dumpling Cheese", "Duskshade Camembert", "Empowered Brie Cheese", "Empowered SUPER|brie+", "Extra Rich Cloud Cheesecake", "Extra Sweet Cupcake Colby", "Festive Feta", "Fishy Fromage", "Flamin\' Queso", "Fusion Fondue", "Galleon Gouda", "Gauntlet Cheese Tier 2", "Gauntlet Cheese Tier 3", "Gauntlet Cheese Tier 4", "Gauntlet Cheese Tier 5", "Gauntlet Cheese Tier 6", "Gauntlet Cheese Tier 7", "Gauntlet Cheese Tier 8", "Gauntlet String Cheese", "Gemstone Cheese", "Ghastly Galleon Gouda", "Ghoulgonzola Cheese", "Gilded Cheese", "Gingerbread Cheese", "Glazed Pecan Pecorino Cheese", "Glowing Gruyere Cheese", "Glutter Cheese", "Gnarled Cheese", "Gouda Cheese", "Graveblossom Camembert", "Grilled Cheese", "Gumbo Cheese", "Hot Queso", "Inferno Havarti Cheese", "Lactrodectus Lancashire Cheese", "Limelight Cheese", "Lockbox Limburger Cheese", "Lunaria Camembert", "Magical Havarti Cheese", "Magical Rancid Radioactive Blue Cheese", "Magical String Cheese", "Maki Cheese", "Maki String Cheese", "Marble Cheese", "Marble String Cheese", "Marshmallow Monterey", "Master Fusion Cheese", "Medium Queso", "Mild Queso", "Mineral Cheese", "Monterey Jack-O-Lantern", "Moon Cheese", "Mozzarella Cheese", "Nian Gao\'da Cheese", "Null Onyx Gorgonzola", "Nutmeg Cheese", "Onyx Gorgonzola", "Pecan Pecorino Cheese", "Polluted Parmesan Cheese", "Polter-Geitost", "Pungent Havarti Cheese", "Radioactive Blue Cheese", "Rainy Cheese", "Rancid Radioactive Blue Cheese", "Resonator Cheese", "Rewind Raclette", "Rift Combat Cheese", "Rift Glutter Cheese", "Rift Rumble Cheese", "Rift Susheese Cheese", "Riftiago Cheese", "Rockforth Cheese", "Rumble Cheese", "Runic Cheese", "Runic String Cheese", "Runny Cheese", "Scream Cheese", "Seasoned Gouda", "Shell Cheese", "Sky Pirate Swiss Cheese", "Snowball Bocconcini", "Speedy Coggy Colby", "Spicy Havarti Cheese", "Sunrise Cheese", "SUPER|brie+", "Susheese Cheese", "Sweet Havarti Cheese", "Swiss Cheese", "Swiss String Cheese", "Terre Ricotta Cheese", "Undead Emmental", "Undead String Emmental", "Vanilla Stilton Cheese", "Vengeful Vanilla Stilton Cheese", "White Cheddar Cheese", "Wicked Gnarly Cheese", "Wildfire Queso", "Windy Cheese"],
+    trinket: ["2014 Charm", "2015 Charm", "2016 Charm", "2017 Charm", "2018 Charm", "2019 Charm", "2020 Charm", "2021 Charm", "2022 Charm", "Airship Charm", "Amplifier Charm", "Ancient Charm", "Antiskele Charm", "Artisan Charm", "Athlete Charm", "Attraction Charm", "Baitkeep Charm", "Black Powder Charm", "Blue Double Sponge Charm", "Brain Charm", "Bravery Charm", "Brilliant Water Jet Charm", "Cackle Charm", "Cactus Charm", "Candy Charm", "Champion Charm", "Charged", "Cherry Charm", "Chrome Charm", "Clarity Charm", "Compass Magnet Charm", "Crucible Cloning Charm", "Cupcake Charm", "Dark Chocolate Charm", "Derr Power Charm", "Diamond Boost Charm", "Door Guard Charm", "Dragonbane Charm", "Dragonbreath Charm", "Dreaded Charm", "Dusty Coal Charm", "Eggscavator Charge Charm", "Eggstra Charge Charm", "Eggstra Charm", "Elub Power Charm", "Ember Charm", "EMP400 Charm", "Empowered Anchor Charm", "Enerchi Charm", "Extra Sweet Cupcake Charm", "Extreme Ancient Charm", "Extreme Attraction Charm", "Extreme Dragonbane Charm", "Extreme Luck Charm", "Extreme Party Charm", "Extreme Polluted Charm", "Extreme Power Charm", "Extreme Queso Pump Charm", "Extreme Regal Charm", "Extreme Snowball Charm", "Extreme Spooky Charm", "Extreme Wealth Charm", "Factory Repair Charm", "Festive Anchor Charm", "Festive Ultimate Luck Charm", "Festive Ultimate Lucky Power Charm", "Festive Ultimate Power Charm", "Firecracker Charm", "First Ever Charm", "Flamebane Charm", "Forgotten Charm", "Freshness Charm", "Gargantua Charm", "Gemstone Boost Charm", "Gift Wrapped Charm", "Gilded Charm", "Gloomy Gathering Charm", "Glowing Gourd Charm", "Gnarled Charm", "Golden Anchor Charm", "Golem Guardian Charm", "Greasy Glob Charm", "Growth Charm", "Grub Salt Charm", "Grub Scent Charm", "Grubling Bonanza Charm", "Grubling Chow Charm", "Horsepower Charm", "Hunter's Horn Rewind Charm", "Hydro Charm", "Lantern Oil Charm", "Let It Snow Charm", "Luck Charm", "Lucky Power Charm", "Lucky Rabbit Charm", "Lucky Valentine Charm", "Magmatic Crystal Charm", "Mining Charm", "Mobile Charm", "Monger Charm", "Monkey Fling Charm", "Nanny Charm", "Nerg Power Charm", "Nightlight Charm", "Nightshade Farming Charm", "Nitropop Charm", "Oxygen Burst Charm", "Party Charm", "Pointy Charm", "Polluted Charm", "Power Charm", "Prospector's Charm", "Queso Pump Charm", "Rainbow Charm", "Ramming Speed Charm", "Reality Restitch Charm", "Realm Ripper Charm", "Red Double Sponge Charm", "Red Sponge Charm", "Regal Charm", "Rift 2020 Charm", "Rift 2021 Charm", "Rift 2022 Charm", "Rift Airship Charm", "Rift Antiskele Charm", "Rift Charm", "Rift Chrome Charm", "Rift Extreme Luck Charm", "Rift Extreme Power Charm", "Rift Extreme Snowball Charm", "Rift Luck Charm", "Rift Power Charm", "Rift Snowball Charm", "Rift Spooky Charm", "Rift Super Luck Charm", "Rift Super Power Charm", "Rift Super Snowball Charm", "Rift Super Vacuum Charm", "Rift Tarnished Charm", "Rift Ultimate Luck Charm", "Rift Ultimate Lucky Power Charm", "Rift Ultimate Power Charm", "Rift Ultimate Snowball Charm", "Rift Vacuum Charm", "Rift Wealth Charm", "Roof Rack Charm", "Rook Crumble Charm", "Rotten Charm", "Safeguard Charm", "Scholar Charm", "Scientist's Charm", "Searcher Charm", "Shadow Charm", "Shamrock Charm", "Shattering Charm", "Sheriff's Badge Charm", "Shielding Charm", "Shine Charm", "Shortcut Charm", "Small Power Charm", "Smart Water Jet Charm", "Snakebite Charm", "Snowball Charm", "Soap Charm", "Softserve Charm", "Spellbook Charm", "Spiked Anchor Charm", "Sponge Charm", "Spooky Charm", "Spore Charm", "Sprinkly Sweet Cupcake Charm", "Stagnant Charm", "Stalemate Charm", "Sticky Charm", "Striker Charm", "Super Ancient Charm", "Super Attraction Charm", "Super Brain Charm", "Super Cactus Charm", "Super Dragonbane Charm", "Super Enerchi Charm", "Super Lantern Oil Charm", "Super Luck Charm", "Super Nightshade Farming Charm", "Super Party Charm", "Super Polluted Charm", "Super Power Charm", "Super Queso Pump Charm", "Super Regal Charm", "Super Rotten Charm", "Super Salt Charm", "Super Snowball Charm", "Super Soap Charm", "Super Spooky Charm", "Super Spore Charm", "Super Warpath Archer Charm", "Super Warpath Cavalry Charm", "Super Warpath Commander's Charm", "Super Warpath Mage Charm", "Super Warpath Scout Charm", "Super Warpath Warrior Charm", "Super Wax Charm", "Super Wealth Charm", "Supply Schedule Charm", "Tarnished Charm", "Taunting Charm", "Timesplit Charm", "Torch Charm", "Treasure Trawling Charm", "Ultimate Anchor Charm", "Ultimate Ancient Charm", "Ultimate Attraction Charm", "Ultimate Charm", "Ultimate Dragonbane Charm", "Ultimate Luck Charm", "Ultimate Lucky Power Charm", "Ultimate Party Charm", "Ultimate Polluted Charm", "Ultimate Power Charm", "Ultimate Snowball Charm", "Ultimate Spooky Charm", "Ultimate Spore Charm", "Ultimate Wealth Charm", "Uncharged Scholar Charm", "Unstable Charm", "Valentine Charm", "Warpath Archer Charm", "Warpath Cavalry Charm", "Warpath Commander's Charm", "Warpath Mage Charm", "Warpath Scout Charm", "Warpath Warrior Charm", "Water Jet Charm", "Wax Charm", "Wealth Charm", "Wild Growth Charm", "Winter Builder Charm", "Winter Charm", "Winter Hoarder Charm", "Winter Miser Charm", "Winter Screw Charm", "Winter Spring Charm", "Winter Wood Charm", "Yellow Double Sponge Charm", "Yellow Sponge Charm"]
 };
 
 // // Best weapon/base/charm/bait pre-determined by user. Edit ur best weapon/base/charm/bait in ascending order. e.g. [best, better, good]
 var objBestTrap = {
     weapon: {
-        arcane: ['Circlet of Pursuing Trap','Circlet of Seeking Trap', 'New Horizon', 'Infinite Winter Horizon', 'Event Horizon', 'Anniversary Arcane Capturing Rod Of Never Yielding Mystery', 'Chrome Grand Arcanum', 'Grand Arcanum', 'Chrome Arcane Capturing Rod Of Never Yielding Mystery', 'Droid Archmagus', 'Arcane Blast', 'Arcane Capturing Rod Of Never Yielding Mystery', 'Nutcracker Nuisance', 'Sprinkly Cupcake Surprise', 'Obelisk of Incineration', 'Obelisk of Slumber'],
-        draconic: ['Dragon Slayer Cannon', 'Chrome Storm Wrought Ballista', 'Storm Wrought Ballista', 'Dragonvine Ballista', 'Harrowing Holiday Harpoon Harp', 'Blazing Ember Spear', 'Dragon Lance', 'Cemetery Gate Grappler', 'Ice Maiden'],
-        forgotten: ['Chrome Thought Obliterator Trap', 'Thought Obliterator Trap', 'Tome of the Minds Eye Trap', 'Thought Manipulator Trap', 'Infinite Labyrinth', 'Endless Labyrinth', 'Crystal Mineral Crusher', 'Crystal Crucible', 'Festive Forgotten Fir', 'Stale Cupcake Golem', 'Scarlet Ember Root', 'Tarannosaurus Rex', 'Father Winter\'s Timepiece', 'The Forgotten Art of Dance', 'Anniversary Ancient Box', 'Ancient Box ', 'Forgotten Pressure Plate'],
-        hydro: ['Chrome School of Sharks Trap', 'School of Sharks Trap', 'Chrome Phantasmic Oasis Trap', 'Rune Shark Trap', 'Phantasmic Oasis Trap', 'Queso Fount Trap', 'Chrome Oasis Water Node Trap', 'Paradise Falls', 'Oasis Water Node', 'Glacier Gatler', 'Holiday Hydro Hailstone', 'Steam Laser Mk. III', 'Steam Laser Mk. II', 'Double Diamond Adventure', 'Kraken Chaos', 'Explosive Toboggan Ride', 'S.U.P.E.R. Scum Scrubber', 'Steam Laser Mk. I', 'Heat Bath', 'Scum Scrubber', 'Ice Blaster', 'Ancient Spear Gun', 'Haunted Shipwreck', 'Bubbles The Party Crasher', 'Net Cannon', 'Harpoon Gun'],
-        law: ['S.T.I.N.G.E.R. Trap', 'S.T.I.N.G. Trap', 'Ember Prison Core', 'Meteor Prison Core', 'Judge Droid', 'The Law Draw', 'Surprise Party', 'Christmas Cactus', 'Law Laser', 'Engine Doubler', 'Bandit Deflector', 'Supply Grabber', 'S.L.A.C. II', 'S.L.A.C.'],
-        physical: ['Charming PrinceBot', 'Chrome MonstroBot', 'Sandstorm MonstroBot', 'Smoldering Stone Sentinel', 'Chrome RhinoBot', 'Sandtail Sentinel', 'New Year\'s Fireworks', 'Rocket Propelled Gavel', 'Warden Slayer', 'Enraged RhinoBot', 'Chrome Onyx Mallet', 'Icy RhinoBot', 'RhinoBot', 'Warpath Thrasher', 'Chrome DrillBot', 'Onyx Mallet', 'Digby DrillBot', 'Christmas Cracker', 'PartyBot', 'Chrome DeathBot', 'Birthday Party Piñata Bonanza', 'Anniversary DeathBot', 'Birthday Candle Kaboom', 'Fluffy DeathBot', 'Grungy DeathBot', 'Mouse DeathBot', 'Snowglobe', 'NVMRC Forcefield', 'Pneumatic Tube', 'Ultra MegaMouser MechaBot', 'HitGrab Rainbow Rockin Horse', 'HitGrab Rockin Horse', 'Swiss Army Mouse', 'Festive Gauntlet Crusher', 'Wrapped Gift', 'Ancient Gauntlet', 'Shrink Ray', 'Mouse Rocketine', 'Mouse Trebuchet', 'HitGrab Horsey', 'Mouse Mary O\'Nette', '500 Pound Spiked Crusher', 'High Tension Spring', 'Chrome Tacky Glue', 'Mouse Hot Tub', 'Tacky Glue'],
-        rift: ['Chrome Celestial Dissonance Trap', 'Celestial Dissonance Trap', 'Timesplit Dissonance Trap', 'Mysteriously unYielding Null-Onyx Rampart of Cascading Amperes', 'Christmas Crystalabra', 'Wacky Inflatable Party People', 'Rift Glacier Gatler', 'Multi-Crystal Laser', 'Biomolecular Re-atomizer', 'Focused Crystal Laser', 'Crystal Tower'],
-        shadow: ['Dark Magic Mirrors Trap', 'Chrome Temporal Turbine', 'Temporal Turbine', 'Anniversary Reaper\'s Perch', 'Goldfrost Crossbow', 'Clockwork Portal', 'Interdimensional Crossbow', 'Reaper\'s Perch', 'Moonbeam Barrier', 'Admiral\'s Galleon', 'Candy Crusher', 'Maniacal Brain Extractor', 'Terrifying Spider', 'Sandcastle Shard', 'Soul Harvester', 'Cackle Lantern', 'Dreaded Totem', 'Clockapult of Winter Past', 'Clockapult of Time', 'Gorgon ', 'Creepy Coffin', 'Brain Extractor', 'Chrome Nannybot', 'Soul Catcher', 'Bottomless Grave', 'Pumpkin Pummeler', 'Ambrosial Portal', 'Sinister Portal'],
-        tactical: ['Slumbering Boulder Trap','Sleeping Stone Trap', 'Chrome Sphynx Wrath', 'Gouging Geyserite', 'Sphynx Wrath', 'Anniversary Ambush', 'Dimensional Chest', 'Rewers Riposte', '2010 Blastoff ', '2012 Big Boom ', 'Well of Wisdom', 'Snow Barrage', 'Giant Speaker', 'Zugzwang\'s Ultimate Move', 'Veiled Vine', 'Chesla\'s Revenge', 'Zugzwang\'s First Move', 'Horrific Venus Mouse', 'S.A.M. F.E.D. DN-5', 'Thorned Venus Mouse', 'Obvious Ambush', 'Blackstone Pass', 'Ninja Ambush', 'Ambush', 'Zurreal\'s Folly', 'Mutated Venus Mouse', 'Gingerbread House Surprise', 'Zugzwang\'s Last Move', 'Venus Mouse', 'Mystic Pawn Pincher', 'Technic Pawn Pincher'],
+        arcane: ['Circlet of Pursuing', 'Circlet of Seeking', 'New Horizon', 'Golem Guardian', 'Event Horizon', 'Infinite Winter Horizon', 'Droid Archmagus', 'Chrome Grand Arcanum', 'Chrome Arcane Capturing Rod Of Never Yielding Mystery', 'Grand Arcanum', 'Boiling Cauldron', 'Anniversary Arcane Capturing Rod Of Never Yielding Mystery', 'Arcane Capturing Rod Of Never Yielding Mystery', 'Sprinkly Cupcake Surprise', 'Arcane Blast', 'Nutcracker Nuisance', 'Obelisk of Incineration', 'Obelisk of Slumber'],
+        draconic: ['Dragon Slayer Cannon', 'Chrome Storm Wrought Ballista', 'Storm Wrought Ballista', 'Tulip Turret', 'Dragonvine Ballista', 'Blazing Ember Spear', 'Ice Maiden', 'Cemetery Gate Grappler', 'Harrowing Holiday Harpoon Harp', 'Dragon Lance'],
+        forgotten: ['Chrome Thought Obliterator', 'Thought Obliterator', 'Tome of the Mind\'s Eye', 'Thought Manipulator', 'Infinite Labyrinth', 'Endless Labyrinth', 'Crystal Mineral Crusher', 'Crystal Crucible', 'Festive Forgotten Fir', 'Golem Guardian', 'Stale Cupcake Golem', 'Scarlet Ember Root', 'Tarannosaurus Rex', 'Father Winter\'s Timepiece', 'The Forgotten Art of Dance', 'Anniversary Ancient Box', 'Ancient Box', 'Forgotten Pressure Plate'],
+        hydro: ['Chrome School of Sharks', 'Queso Fount', 'Golem Guardian', 'School of Sharks', 'Rune Shark', 'Chrome Phantasmic Oasis', 'Phantasmic Oasis', 'Bubbles: The Party Crasher', 'Chrome Oasis Water Node', 'Oasis Water Node', 'Haunted Shipwreck', 'Steam Laser Mk. II', 'Steam Laser Mk. III', 'Glacier Gatler', 'Heat Bath', 'S.S. Scoundrel Sleigher', 'Steam Laser Mk. I', 'Paradise Falls', 'S.U.P.E.R. Scum Scrubber', 'Ice Blaster', 'Ancient Spear Gun', 'Holiday Hydro Hailstone', 'Isle Idol', 'Double Diamond Adventure', 'Kraken Chaos', 'Harpoon Gun', 'Scum Scrubber', 'Net Cannon', 'Explosive Toboggan Ride', 'Steam Laser Mk. II (Broken!)'],
+        law: ['S.T.I.N.G.E.R.', 'Ember Prison Core', 'S.T.I.N.G.', 'Meteor Prison Core', 'Judge Droid', 'The Holiday Express', 'Limited Edition', 'Engine Doubler', 'Queso Factory', 'Bandit Deflector', 'Surprise Party', 'Supply Grabber', 'Christmas Cactus', 'Law Laser', 'S.L.A.C. II', 'The Law Draw', 'S.L.A.C.'],
+        physical: ['Charming PrinceBot', 'Smoldering Stone Sentinel', 'Chrome MonstroBot', 'Sandstorm MonstroBot', 'Golem Guardian', 'Sandtail Sentinel', 'Chrome RhinoBot', 'Rocket Propelled Gavel', 'Warden Slayer', 'New Year\'s Fireworks', 'Enraged RhinoBot', 'Chrome Onyx Mallet', 'Isle Idol', 'Carousel Charger', 'Icy RhinoBot', 'RhinoBot', 'Warpath Thrasher', 'Chrome DrillBot', 'Onyx Mallet', 'Digby DrillBot', 'Chrome DeathBot', 'Anniversary DeathBot', 'Christmas Cracker', 'Fluffy DeathBot', 'Grungy DeathBot', 'Mouse DeathBot', 'PartyBot', 'Birthday Party Piñata Bonanza', 'Birthday Candle Kaboom', 'NVMRC Forcefield', 'Snowglobe', 'Pneumatic Tube', 'Ultra MegaMouser MechaBot', 'Shrink Ray', 'HitGrab Rainbow Rockin\' Horse', 'HitGrab Rockin\' Horse', 'Festive Gauntlet Crusher', 'Swiss Army Mouse', 'Wrapped Gift', 'Ancient Gauntlet', 'Mouse Rocketine', 'Mouse Trebuchet', 'HitGrab Horsey', '500 Pound Spiked Crusher', 'Mouse Mary O\'Nette', 'High Tension Spring', 'Mouse Hot Tub', 'Chrome Tacky Glue', 'Tacky Glue'],
+        rift: ['Chrome Celestial Dissonance', 'Celestial Dissonance', 'Timesplit Dissonance', 'Mysteriously unYielding Null-Onyx Rampart of Cascading Amperes', 'Focused Crystal Laser', 'Biomolecular Re-atomizer', 'Darkest Chocolate Bunny', 'Rift Glacier Gatler', 'Christmas Crystalabra', 'Wacky Inflatable Party People', 'Multi-Crystal Laser', 'Crystal Tower'],
+        shadow: ['Dark Magic Mirrors', 'Chrome Temporal Turbine', 'Cheese Seeking Lighthouse', 'Temporal Turbine', 'Goldfrost Crossbow', 'Interdimensional Crossbow', 'Moonbeam Barrier', 'Clockwork Portal', 'The Haunted Manor', 'Anniversary Reaper\'s Perch', 'Reaper\'s Perch', 'Dreaded Totem', 'Sandcastle Shard', 'Clockapult of Time', 'Clockapult of Winter Past', 'Maniacal Brain Extractor', 'Admiral\'s Galleon', 'Terrifying Spider', 'Cackle Lantern', 'Soul Harvester', 'Brain Extractor', 'Gorgon', 'Candy Crusher', 'Creepy Coffin', 'Soul Catcher', 'Bottomless Grave', 'Chrome Nannybot', 'Pumpkin Pummeler', 'Sinister Portal', 'Ambrosial Portal'],
+        tactical: ['Slumbering Boulder', 'Gouging Geyserite', 'Sleeping Stone', 'Chrome Sphynx Wrath', 'Sphynx Wrath', 'Dimensional Chest', 'Golem Guardian', 'Cloaking Droid', 'Chesla\'s Revenge', 'Zugzwang\'s Ultimate Move', 'Zugzwang\'s First Move', 'Well of Wisdom', 'Isle Idol', 'Veiled Vine', 'Horrific Venus Mouse', 'Thorned Venus Mouse', 'Blackstone Pass', 'Obvious Ambush', 'Anniversary Ambush', 'Ambush', 'Ninja Ambush', 'Zurreal\'s Folly', 'Rewers Riposte', 'Giant Speaker', 'S.A.M. F.E.D. DN-5', '2010 Blastoff', '2012 Big Boom', 'Mutated Venus Mouse', 'Zugzwang\'s Last Move', 'Gingerbread House Surprise', 'Venus Mouse', 'Snow Barrage', 'Mystic Pawn Pincher', 'Technic Pawn Pincher'],
     },
     base: {
-        luck: ['Signature Series Denture Base', 'Prestige Base', 'Adorned Empyrean Refractor Base', 'Minotaur Base', 'Clockwork Base', 'Overgrown Ember Stone Base', 'Fissure Base', 'Birthday Banana Cake Base', 'Rift Base', 'Treasure Seeker Base', 'Desert Seeker Base', '2020 New Year\'s Base', 'Hallowed Ground Base', 'Glowing Guardian Base', 'Deadwood Plank Base', 'Attuned Enerchi Induction Base', 'Depth Charge Base', 'Rat Jade Base', 'Pig Jade Base', 'Dog Jade Base', 'Rooster Jade Base', 'Monkey Jade Base', 'Sheep Jade Base', 'Horse Jade Base', 'Snake Jade Base', 'Dragon Jade Base', 'Eerier Base', 'Papyrus Base'],
+        luck: ['Adorned Empyrean Refractor Base', 'Minotaur Base', 'Clockwork Base', 'Fissure Base', 'Overgrown Ember Stone Base', 'Birthday Banana Cake Base', 'Rift Base', '10 Layer Birthday Cake Base', '2017 New Year\'s Base', '2018 New Year\'s Base', '2019 New Year\'s Base', '2020 New Year\'s Base', '2021 New Year\'s Base', '2022 New Year\'s Base', 'Alchemist\'s Cookbook Base', 'All Season Express Track Base', 'Ancient Booster Base', 'Attuned Enerchi Induction Base', 'Birthday Confetti Cake Base', 'Birthday Ube Cake Base', 'Black Widow Base', 'Chocolate Bar Base', 'Condemned Base', 'Deadwood Plank Base', 'Depth Charge Base', 'Desert Heater Base', 'Dog Jade Base', 'Dragon Jade Base', 'Eerier Base', 'Elixir Exchanger Base', 'Enerchi Induction Base', 'Festive Winter Hunt Base', 'Forecaster Base', 'Fracture Base', 'Furoma Base', 'Gemology Base', 'Gift of the Day Base', 'Glowing Golem Guardian Base', 'Hallowed Ground Base', 'Horse Jade Base', 'Ice Cream Cake Base', 'Labyrinth Base', 'Magma Base', 'Monkey Jade Base', 'Ox Jade Base', 'Papyrus Base', 'Pig Jade Base', 'Rat Jade Base', 'Refined Pollutinum Base', 'Rooster Jade Base', 'Seasonal Gift of the Day Base', 'Sheep Jade Base', 'Snake Jade Base', 'Thief Base', 'Tidal Base', 'Tiger Jade Base', 'Treasure Seeker Base'],
         power: ['Signature Series Denture Base', 'Prestige Base', 'Adorned Empyrean Refractor Base', 'Minotaur Base', 'Clockwork Base', 'Overgrown Ember Stone Base', 'Tidal Base', 'Golden Tournament Base', 'Spellbook Base']
     }
 };
@@ -374,140 +374,140 @@ var g_objConstTrap = {
 // // Scaffolding Code for Auto QCGT Mapping Function. Automatically Snipes PP/CQ/QR/Corky. Requires Mapping Helper Script (https://greasyfork.org/en/scripts/384275-mousehunt-mapping-helper).
 
 function check(){
-magic_dict_qr = ["Croquet Crusher", "Croquet Crusher","Pump Raider","Tiny Saboteur", "Sleepy Merchant",]
-magic_dict_pp = {"Bland Queso": ["Spice Seer","Old Spice Collector"],
-"Mild Queso": ["Spice Farmer", "Granny Spice"],
-"Medium Queso": ["Spice Finder","Spice Sovereign",],
-"Hot Queso": ["Spice Reaper","Spice Raider",]};
-magic_dict_cq = {"Bland Queso": ["Chip Chiseler","Tiny Toppler"],
-"Mild Queso": ["Ore Chipper", "Rubble Rummager"],
-"Medium Queso": ["Nachore Golem", "Rubble Rouser",],
-"Hot Queso": ["Grampa Golem", "Fiery Crusher",]};
-magic_dict_qg = {"Bland Queso": ["Fuzzy Drake"],
-"Mild Queso": ["Cork Defender",],
-"Medium Queso": ["Burly Bruiser",],
-"Hot Queso": ["Corky, the Collector","Horned Cork Hoarder"],
-"Flamin' Queso": [ "Rambunctious Rain Rumbler"],
-"Wildfire Queso": ["Corkataur"]};
-magic_dict_qg2 = {"Mild Queso": ["Warming Wyvern",],
-"Medium Queso": ["Steam Sailor",],
-"Hot Queso": ["Vaporior"],
-"Flamin' Queso": ["Pyrehyde"],
-"Wildfire Queso": ["Emberstone Scaled"]};
-if (true){
-qg_bait = ["Hot Queso","Medium Queso", "Mild Queso", "Bland Queso"]
-let remaining_mice = JSON.parse(localStorage.getItem("tsitu-maptem-mapmice"));
-if (remaining_mice == null) return;
-console.plog("Mode = 2");
-console.log(remaining_mice);
-if (user.environment_name == "Prickly Plains"){
-if (objBestTrap.weapon.arcane[0] == "" ) objBestTrap.weapon.arcane.shift();
-if(user.bait_name == "SUPER|brie+") checkThenArm(null, 'bait', "Medium Queso");
-checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
-console.plog("user in pp");
-qg_bait = ["Bland Queso", "Mild Queso", "Medium Queso", "Hot Queso"]
-for (const check_bait of qg_bait){
-console.log("checking", check_bait);
-if (findCommonElements(magic_dict_pp[check_bait], remaining_mice)){
-checkThenArm(null, 'bait', check_bait);
-console.log(check_bait, "present")
-return;
-}
-}
-for (const check_bait of qg_bait){
-if (findCommonElements(magic_dict_cq[check_bait], remaining_mice)){
-checkThenArm('best', 'weapon', objBestTrap.weapon.shadow);
-checkThenArm(null, 'bait', check_bait);
-Travel("queso_quarry");
-return;
-}
-}
-console.plog(findCommonElements(magic_dict_pp["Bland Queso"], remaining_mice));
-}
-if (user.environment_name == "Cantera Quarry"){
-checkThenArm('best', 'weapon', objBestTrap.weapon.shadow);
-console.log("reached");
-console.plog("user in cq");
-for (const check_bait of qg_bait){
-console.log("checking", check_bait);
-if (findCommonElements(magic_dict_cq[check_bait], remaining_mice)){
-checkThenArm(null, 'bait', check_bait);
-console.log(check_bait, "present")
-return;
-}
-}
-let temp = true;
-for (const check_bait of qg_bait){
-if (findCommonElements(magic_dict_qg[check_bait], remaining_mice)){
-checkThenArm('best', 'weapon', objBestTrap.weapon.draconic);
-checkThenArm(null, 'bait', check_bait);
-Travel("queso_geyser");
-console.log("yes");
-temp = false;
-return;
-}
-}
-checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
-checkThenArm(null, 'bait', 'Mild Queso');
-Travel("queso_plains");
-}
-if (user.environment_name == "Queso Geyser"){
-console.log("before", objBestTrap.weapon.draconic);
-if (objBestTrap.weapon.draconic[0] == "" ) {objBestTrap.weapon.draconic.shift(); console.log("reached 2");}
-console.log("after", objBestTrap.weapon.draconic);
-console.log("here",objBestTrap.weapon.draconic);
-checkThenArm('best', 'weapon', objBestTrap.weapon.draconic);
-if (user.quests.QuestQuesoGeyser.state != "collecting") {console.log("wrong stage"); return;}
-if (user.quests.QuestQuesoGeyser.state == "collecting"){
-ext = ["Flamin' Queso", "Wildfire Queso"]
-for (const check_bait of ext.concat(qg_bait)){
-console.log("checking", check_bait);
-if (findCommonElements(magic_dict_qg[check_bait], remaining_mice)){
-checkThenArm(null, 'bait', check_bait);
-console.log(check_bait, "present")
-return;
-}
-}
-}
-if (user.quests.QuestQuesoGeyser.state == "corked") {
-for (const check_bait of ext.concat(qg_bait)){
-console.log("checking", check_bait);
-if (user.quests.QuestQuesoGeyser.max_pressure == 35) {qg_bait = ["Mild Queso", "Bland Queso", "Hot Queso", "Medium Queso"]}
-if (findCommonElements(magic_dict_qg2[check_bait], remaining_mice)){
-checkThenArm(null, 'bait', check_bait);
-console.log(check_bait, "present")
-return;
-}
-}
-}
-if (user.quests.QuestQuesoGeyser.state == "collecting") {
-checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
-checkThenArm(null, 'bait', 'Bland Queso');
-Travel("queso_plains");}
-}
-if (user.environment_name == "Queso River") {
-if (findCommonElements(magic_dict_qr, remaining_mice)){
-checkThenArm(null, 'bait', 'SUPER');
-}
-else {
-checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
-checkThenArm(null, 'bait', 'Bland Queso');
-checkThenArm(null, 'bait', 'Bland Queso');
-Travel("queso_plains");
-}
-}
-//console.plog(user.environment_name == "Cantera Quarry");
-}
+    magic_dict_qr = ["Croquet Crusher", "Croquet Crusher","Pump Raider","Tiny Saboteur", "Sleepy Merchant",]
+    magic_dict_pp = {"Bland Queso": ["Spice Seer","Old Spice Collector"],
+                     "Mild Queso": ["Spice Farmer", "Granny Spice"],
+                     "Medium Queso": ["Spice Finder","Spice Sovereign",],
+                     "Hot Queso": ["Spice Reaper","Spice Raider",]};
+    magic_dict_cq = {"Bland Queso": ["Chip Chiseler","Tiny Toppler"],
+                     "Mild Queso": ["Ore Chipper", "Rubble Rummager"],
+                     "Medium Queso": ["Nachore Golem", "Rubble Rouser",],
+                     "Hot Queso": ["Grampa Golem", "Fiery Crusher",]};
+    magic_dict_qg = {"Bland Queso": ["Fuzzy Drake"],
+                     "Mild Queso": ["Cork Defender",],
+                     "Medium Queso": ["Burly Bruiser",],
+                     "Hot Queso": ["Corky, the Collector","Horned Cork Hoarder"],
+                     "Flamin' Queso": [ "Rambunctious Rain Rumbler"],
+                     "Wildfire Queso": ["Corkataur"]};
+    magic_dict_qg2 = {"Mild Queso": ["Warming Wyvern",],
+                      "Medium Queso": ["Steam Sailor",],
+                      "Hot Queso": ["Vaporior"],
+                      "Flamin' Queso": ["Pyrehyde"],
+                      "Wildfire Queso": ["Emberstone Scaled"]};
+    if (true){
+        qg_bait = ["Hot Queso","Medium Queso", "Mild Queso", "Bland Queso"]
+        let remaining_mice = JSON.parse(localStorage.getItem("tsitu-maptem-mapmice"));
+        if (remaining_mice == null) return;
+        console.plog("Mode = 2");
+        console.log(remaining_mice);
+        if (user.environment_name == "Prickly Plains"){
+            if (objBestTrap.weapon.arcane[0] == "" ) objBestTrap.weapon.arcane.shift();
+            if(user.bait_name == "SUPER|brie+") checkThenArm(null, 'bait', "Medium Queso");
+            checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
+            console.plog("user in pp");
+            qg_bait = ["Bland Queso", "Mild Queso", "Medium Queso", "Hot Queso"]
+            for (const check_bait of qg_bait){
+                console.log("checking", check_bait);
+                if (findCommonElements(magic_dict_pp[check_bait], remaining_mice)){
+                    checkThenArm(null, 'bait', check_bait);
+                    console.log(check_bait, "present")
+                    return;
+                }
+            }
+            for (const check_bait of qg_bait){
+                if (findCommonElements(magic_dict_cq[check_bait], remaining_mice)){
+                    checkThenArm('best', 'weapon', objBestTrap.weapon.shadow);
+                    checkThenArm(null, 'bait', check_bait);
+                    Travel("queso_quarry");
+                    return;
+                }
+            }
+            console.plog(findCommonElements(magic_dict_pp["Bland Queso"], remaining_mice));
+        }
+        if (user.environment_name == "Cantera Quarry"){
+            checkThenArm('best', 'weapon', objBestTrap.weapon.shadow);
+            console.log("reached");
+            console.plog("user in cq");
+            for (const check_bait of qg_bait){
+                console.log("checking", check_bait);
+                if (findCommonElements(magic_dict_cq[check_bait], remaining_mice)){
+                    checkThenArm(null, 'bait', check_bait);
+                    console.log(check_bait, "present")
+                    return;
+                }
+            }
+            let temp = true;
+            for (const check_bait of qg_bait){
+                if (findCommonElements(magic_dict_qg[check_bait], remaining_mice)){
+                    checkThenArm('best', 'weapon', objBestTrap.weapon.draconic);
+                    checkThenArm(null, 'bait', check_bait);
+                    Travel("queso_geyser");
+                    console.log("yes");
+                    temp = false;
+                    return;
+                }
+            }
+            checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
+            checkThenArm(null, 'bait', 'Mild Queso');
+            Travel("queso_plains");
+        }
+        if (user.environment_name == "Queso Geyser"){
+            console.log("before", objBestTrap.weapon.draconic);
+            if (objBestTrap.weapon.draconic[0] == "" ) {objBestTrap.weapon.draconic.shift(); console.log("reached 2");}
+            console.log("after", objBestTrap.weapon.draconic);
+            console.log("here",objBestTrap.weapon.draconic);
+            checkThenArm('best', 'weapon', objBestTrap.weapon.draconic);
+            if (user.quests.QuestQuesoGeyser.state != "collecting") {console.log("wrong stage"); return;}
+            if (user.quests.QuestQuesoGeyser.state == "collecting"){
+                ext = ["Flamin' Queso", "Wildfire Queso"]
+                for (const check_bait of ext.concat(qg_bait)){
+                    console.log("checking", check_bait);
+                    if (findCommonElements(magic_dict_qg[check_bait], remaining_mice)){
+                        checkThenArm(null, 'bait', check_bait);
+                        console.log(check_bait, "present")
+                        return;
+                    }
+                }
+            }
+            if (user.quests.QuestQuesoGeyser.state == "corked") {
+                for (const check_bait of ext.concat(qg_bait)){
+                    console.log("checking", check_bait);
+                    if (user.quests.QuestQuesoGeyser.max_pressure == 35) {qg_bait = ["Mild Queso", "Bland Queso", "Hot Queso", "Medium Queso"]}
+                    if (findCommonElements(magic_dict_qg2[check_bait], remaining_mice)){
+                        checkThenArm(null, 'bait', check_bait);
+                        console.log(check_bait, "present")
+                        return;
+                    }
+                }
+            }
+            if (user.quests.QuestQuesoGeyser.state == "collecting") {
+                checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
+                checkThenArm(null, 'bait', 'Bland Queso');
+                Travel("queso_plains");}
+        }
+        if (user.environment_name == "Queso River") {
+            if (findCommonElements(magic_dict_qr, remaining_mice)){
+                checkThenArm(null, 'bait', 'SUPER');
+            }
+            else {
+                checkThenArm('best', 'weapon', objBestTrap.weapon.arcane);
+                checkThenArm(null, 'bait', 'Bland Queso');
+                checkThenArm(null, 'bait', 'Bland Queso');
+                Travel("queso_plains");
+            }
+        }
+        //console.plog(user.environment_name == "Cantera Quarry");
+    }
 }
 
 function Travel(location) {
-app.pages.TravelPage.travel(location);
-window.setTimeout(function () { reloadWithMessage("Fail to retrieve data. Reloading...", false); }, 5000);
+    app.pages.TravelPage.travel(location);
+    window.setTimeout(function () { reloadWithMessage("Fail to retrieve data. Reloading...", false); }, 5000);
 }
 
 function findCommonElements(arr1, arr2) {
-if (arr1 == null || arr2 == null) return;
-return arr1.some(item => arr2.includes(item))
+    if (arr1 == null || arr2 == null) return;
+    return arr1.some(item => arr2.includes(item))
 }
 
 // // Addon code (default: empty string)
@@ -539,6 +539,7 @@ var currentLocation;
 var today = new Date();
 var checkTime = (today.getMinutes() >= trapCheckTimeDiff) ? 3600 + (trapCheckTimeDiff * 60) - (today.getMinutes() * 60 + today.getSeconds()) : (trapCheckTimeDiff * 60) - (today.getMinutes() * 60 + today.getSeconds());
 today = undefined;
+var millisTillGWH = new Date(2022, 11, 6, 15, 0, 0, 0) - today;
 var hornRetryMax = 10;
 var hornRetry = 0;
 var nextActiveTime = 900;
@@ -1022,15 +1023,15 @@ function exeScript() {
                 window.location.href == "https://www.mousehuntgame.com/canvas/#" ||
                 window.location.href.indexOf("mousehuntgame.com/canvas/?") != -1) {
                 window.location.href == "https://www.mousehuntgame.com/" ||
-                window.location.href == "https://www.mousehuntgame.com/#" ||
-                window.location.href == "https://www.mousehuntgame.com/?switch_to=standard" ||
-                window.location.href == "https://www.mousehuntgame.com/index.php" ||
-                window.location.href == "https://www.mousehuntgame.com/camp.php" ||
-                window.location.href.indexOf("mousehuntgame.com/index.php") >= 0 ||
-                // page to execute the script!
+                    window.location.href == "https://www.mousehuntgame.com/#" ||
+                    window.location.href == "https://www.mousehuntgame.com/?switch_to=standard" ||
+                    window.location.href == "https://www.mousehuntgame.com/index.php" ||
+                    window.location.href == "https://www.mousehuntgame.com/camp.php" ||
+                    window.location.href.indexOf("mousehuntgame.com/index.php") >= 0 ||
+                    // page to execute the script!
 
-                // make sure all the preference already loaded
-                loadPreferenceSettingFromStorage();
+                    // make sure all the preference already loaded
+                    loadPreferenceSettingFromStorage();
 
                 // this is the page to execute the script
                 if (!checkIntroContainer() && retrieveDataFirst()) {
@@ -1058,21 +1059,21 @@ function exeScript() {
                 nobInit();
             }
         }     else if (mhPlatform) {
-        if (window.location.href == "http://www.mousehuntgame.com/" ||
-            window.location.href == "https://www.mousehuntgame.com/" ||
-			window.location.href == "http://www.mousehuntgame.com/#" ||
-            window.location.href == "https://www.mousehuntgame.com/#" ||
-			window.location.href == "http://www.mousehuntgame.com/?switch_to=standard" ||
-            window.location.href == "https://www.mousehuntgame.com/?switch_to=standard" ||
-            window.location.href == "http://www.mousehuntgame.com/index.php" ||
-			window.location.href == "https://www.mousehuntgame.com/index.php" ||
-            window.location.href == "http://www.mousehuntgame.com/camp.php" ||
-			window.location.href == "https://www.mousehuntgame.com/camp.php" ||
-            window.location.href == "http://www.mousehuntgame.com/camp.php#" ||
-            window.location.href == "https://www.mousehuntgame.com/camp.php#" ||
-			window.location.href.indexOf("mousehuntgame.com/index.php") >= 0 ||
-            window.location.href.indexOf("mousehuntgame.com/camp.php") >= 0 ||
-			window.location.href.indexOf("mousehuntgame.com/camp.php#") >= 0) {
+            if (window.location.href == "http://www.mousehuntgame.com/" ||
+                window.location.href == "https://www.mousehuntgame.com/" ||
+                window.location.href == "http://www.mousehuntgame.com/#" ||
+                window.location.href == "https://www.mousehuntgame.com/#" ||
+                window.location.href == "http://www.mousehuntgame.com/?switch_to=standard" ||
+                window.location.href == "https://www.mousehuntgame.com/?switch_to=standard" ||
+                window.location.href == "http://www.mousehuntgame.com/index.php" ||
+                window.location.href == "https://www.mousehuntgame.com/index.php" ||
+                window.location.href == "http://www.mousehuntgame.com/camp.php" ||
+                window.location.href == "https://www.mousehuntgame.com/camp.php" ||
+                window.location.href == "http://www.mousehuntgame.com/camp.php#" ||
+                window.location.href == "https://www.mousehuntgame.com/camp.php#" ||
+                window.location.href.indexOf("mousehuntgame.com/index.php") >= 0 ||
+                window.location.href.indexOf("mousehuntgame.com/camp.php") >= 0 ||
+                window.location.href.indexOf("mousehuntgame.com/camp.php#") >= 0) {
                 // page to execute the script!
 
                 // make sure all the preference already loaded
@@ -1431,8 +1432,8 @@ function eventLocationCheck(caller) {
             iceberg('sticky');
             break;
         case 'Labyrinth':
-        //labyrinth();
-        //break;
+            //labyrinth();
+            //break;
         case 'Zokor':
             //zokor();
             labyZokor();
@@ -2628,7 +2629,7 @@ function iceberg(waxOrSticky) { // takes in string 'wax' or 'sticky'
                 checkThenArm('best', 'trinket', icebergCharm, wasteCharm);
                 break;
             case 'Icewing\'s Lair':
-            // Deep freeze base for the rest
+                // Deep freeze base for the rest
             case 'Hidden Depths':
             case 'The Deep Lair':
                 checkThenArm(null, 'base', 'Deep Freeze Base');
@@ -4753,7 +4754,7 @@ function checkCharge2016(stopDischargeAt) {
 function checkCharge(stopDischargeAt) {
     try {
         var charge = parseInt(document.getElementsByClassName("chargeQuantity")[0].innerText);
-		console.plog('Current Charge:', charge);
+        console.plog('Current Charge:', charge);
         if (charge == 20) {
             setStorage("discharge", true.toString());
             checkThenArm(null, "trinket", "Eggstra Charm");
@@ -4764,26 +4765,26 @@ function checkCharge(stopDischargeAt) {
                 checkThenArm(null, "trinket", "Eggstra Charm");
             }
             else {
-				if (stopDischargeAt == 17) {
-					checkThenArm('best', "trinket", chargeCharm);
-				}
-				else {
-					checkThenArm(null, "trinket", "Eggscavator");
-				}
+                if (stopDischargeAt == 17) {
+                    checkThenArm('best', "trinket", chargeCharm);
+                }
+                else {
+                    checkThenArm(null, "trinket", "Eggscavator");
+                }
             }
         }
-		else if (charge == stopDischargeAt) {
-			if (stopDischargeAt == 17) {
-				checkThenArm('best', "trinket", chargeCharm);
-			}
-			else {
-				checkThenArm(null, "trinket", "Eggscavator");
-			}
-			setStorage("discharge", false.toString());
-		}
+        else if (charge == stopDischargeAt) {
+            if (stopDischargeAt == 17) {
+                checkThenArm('best', "trinket", chargeCharm);
+            }
+            else {
+                checkThenArm(null, "trinket", "Eggscavator");
+            }
+            setStorage("discharge", false.toString());
+        }
         else if (charge < stopDischargeAt) {
             setStorage("discharge", false.toString());
-			checkThenArm(null, "trinket", "Eggscavator");
+            checkThenArm(null, "trinket", "Eggscavator");
         }
         return;
     }
@@ -4842,6 +4843,19 @@ function getTrapList(category) {
             }
         }
     }
+}
+
+const testopen = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function () {
+    this.addEventListener("load", async function () {
+        if (
+            this.responseURL ==
+            `https://www.mousehuntgame.com/managers/ajax/users/marketplace.php`
+        ) {
+            // console.log('detected');
+        }
+    })
+    testopen.apply(this, arguments);
 }
 
 function clearTrapList(category) {
@@ -4937,102 +4951,102 @@ function getBestTrap() {
 
 function checkThenArm(sort, category, name, isForcedRetry)   //category = weapon/base/charm/trinket/bait
 {
-	if(isNullOrUndefined(name) || name === '')
-		return;
+    if(isNullOrUndefined(name) || name === '')
+        return;
 
-	if (category == "charm")
+    if (category == "charm")
         category = "trinket";
 
-	if(!(Array.isArray(name))){
-		var obj = getConstToRealValue(sort, category, name);
-		if(obj.changed){
-			sort = obj.sort;
-			name = obj.name;
-		}
-	}
+    if(!(Array.isArray(name))){
+        var obj = getConstToRealValue(sort, category, name);
+        if(obj.changed){
+            sort = obj.sort;
+            name = obj.name;
+        }
+    }
 
-	if(Array.isArray(name)){
-		if(!(sort == 'best' || sort == 'any'))
-			sort = 'best';
-		if(name.length == 1){
-			sort = null;
-			name = name[0];
-		}
-	}
-	else{
-		if(name.toUpperCase().indexOf('NONE') === 0){
-			disarmTrap(category);
-			return;
-		}
-		sort = null;
-	}
+    if(Array.isArray(name)){
+        if(!(sort == 'best' || sort == 'any'))
+            sort = 'best';
+        if(name.length == 1){
+            sort = null;
+            name = name[0];
+        }
+    }
+    else{
+        if(name.toUpperCase().indexOf('NONE') === 0){
+            disarmTrap(category);
+            return;
+        }
+        sort = null;
+    }
 
-	if(isNullOrUndefined(isForcedRetry))
-		isForcedRetry = true;
+    if(isNullOrUndefined(isForcedRetry))
+        isForcedRetry = true;
 
     var trapArmed = undefined;
-	var userVariable = getPageVariable("user." + category + "_name");
+    var userVariable = getPageVariable("user." + category + "_name");
     if (sort == 'best') {
-		getTrapList(category);
-		if (objTrapList[category].length === 0){
-			var intervalCTA1 = setInterval(
-				function (){
-					if (!arming){
-						getTrapListFromTrapSelector(sort, category, name, isForcedRetry);
-						clearInterval(intervalCTA1);
-						intervalCTA1 = null;
-						return;
-					}
-				}, 1000);
-			return;
-		}
-		else{
-			var nIndex = -1;
-			for (var i = 0; i < name.length; i++) {
-				for (var j = 0; j < objTrapList[category].length; j++) {
-					nIndex = objTrapList[category][j].indexOf("...");
-					if(nIndex > -1)
-						name[i] = name[i].substr(0,nIndex);
-					if (objTrapList[category][j].indexOf(name[i]) === 0){
-						console.plog('Best', category, 'found:', name[i], 'Currently Armed:', userVariable);
-						if (userVariable.indexOf(name[i]) === 0) {
-							trapArmed = true;
-							arming = false;
-							closeTrapSelector(category);
-							return;
-						}
-						else {
-							trapArmed = false;
-							break;
-						}
-					}
-				}
-				if (trapArmed === false)
-					break;
-			}
-		}
+        getTrapList(category);
+        if (objTrapList[category].length === 0){
+            var intervalCTA1 = setInterval(
+                function (){
+                    if (!arming){
+                        getTrapListFromTrapSelector(sort, category, name, isForcedRetry);
+                        clearInterval(intervalCTA1);
+                        intervalCTA1 = null;
+                        return;
+                    }
+                }, 1000);
+            return;
+        }
+        else{
+            var nIndex = -1;
+            for (var i = 0; i < name.length; i++) {
+                for (var j = 0; j < objTrapList[category].length; j++) {
+                    nIndex = objTrapList[category][j].indexOf("...");
+                    if(nIndex > -1)
+                        name[i] = name[i].substr(0,nIndex);
+                    if (objTrapList[category][j].indexOf(name[i]) === 0){
+                        console.plog('Best', category, 'found:', name[i], 'Currently Armed:', userVariable);
+                        if (userVariable.indexOf(name[i]) === 0) {
+                            trapArmed = true;
+                            arming = false;
+                            closeTrapSelector(category);
+                            return;
+                        }
+                        else {
+                            trapArmed = false;
+                            break;
+                        }
+                    }
+                }
+                if (trapArmed === false)
+                    break;
+            }
+        }
     }
     else if(sort == 'any'){
-		trapArmed = false;
-		for (var i = 0; i < name.length; i++){
+        trapArmed = false;
+        for (var i = 0; i < name.length; i++){
             if (userVariable.indexOf(name[i]) === 0){
                 trapArmed = true;
                 break;
             }
         }
-	}
-	else{
+    }
+    else{
         trapArmed = (userVariable.indexOf(name) === 0);
     }
 
-	if (trapArmed === undefined && isForcedRetry){
-		console.plog(name.join("/"), "not found in TrapList" + capitalizeFirstLetter(category));
-		clearTrapList(category);
-		checkThenArm(sort, category, name, false);
-	}
+    if (trapArmed === undefined && isForcedRetry){
+        console.plog(name.join("/"), "not found in TrapList" + capitalizeFirstLetter(category));
+        clearTrapList(category);
+        checkThenArm(sort, category, name, false);
+    }
     else if (trapArmed === false){
-		addArmingIntoList(category);
-		var intervalCTA = setInterval(
+        addArmingIntoList(category);
+        var intervalCTA = setInterval(
             function (){
                 if (arming === false){
                     clickThenArmTrapInterval(sort, category, name);
@@ -5442,10 +5456,16 @@ function retrieveDataFirst() {
 }
 
 function GetHornTime() {
-    var huntTimerElement = document.getElementById('huntTimer');
+    const horn_element = document.querySelector('.huntersHornView__horn');
+    const hunt_timer = document.querySelector(".huntersHornView__countdown");
+    let message;
+    if (hunt_timer) {
+        message = hunt_timer.innerText;
+    }
+    var huntTimerElement = hunt_timer;
     var totalSec = 900;
     if (huntTimerElement !== null) {
-        huntTimerElement = huntTimerElement.textContent;
+        huntTimerElement = message;
         if (huntTimerElement.toLowerCase().indexOf('ready') > -1)
             totalSec = 0;
         else if (isNewUI) {
@@ -5461,6 +5481,7 @@ function GetHornTime() {
                 totalSec = temp * 60;
         }
     }
+    console.log(totalSec);
     return totalSec;
 }
 
@@ -5485,7 +5506,7 @@ function getKingRewardStatus() {
 }
 
 function getBaitQuantity() {
-var hudBaitQuantity = document.getElementsByClassName("mousehuntHud-userStat bait")[0].getElementsByClassName("value")[0];
+    var hudBaitQuantity = document.getElementsByClassName("mousehuntHud-userStat bait")[0].getElementsByClassName("value")[0];
     if (hudBaitQuantity !== null) {
         return parseInt(hudBaitQuantity.innerText);
     }
@@ -5679,10 +5700,10 @@ function action() {
 
             // check if the horn image is visible
             nobTestBetaUI();
-            var headerElement = document.getElementById(header).firstChild;
+            var headerElement = document.querySelector('.huntersHornView');
             if (headerElement) {
-                var headerStatus = headerElement.getAttribute('class');
-                if (headerStatus.indexOf(hornReady) != -1) {
+                var headerStatus = headerElement.querySelector('.huntersHornView__timerState.huntersHornView__timerState--type-ready')
+                if (headerStatus.checkVisibility()) {
                     // if the horn image is visible, why do we need to wait any more, sound the horn!
                     soundHorn();
 
@@ -5804,8 +5825,8 @@ function countdownTimer() {
                 // update timer
                 if (!aggressiveMode) {
                     displayTimer("Horn: " + timeFormat(hornTime) + " | Check: " + timeFormat(checkTime),
-                        timeFormat(hornTime) + "  <i>(included extra " + timeFormat(hornTimeDelay) + " delay & +/- 5 seconds different from MouseHunt timer)</i>",
-                        timeFormat(checkTime) + "  <i>(included extra " + timeFormat(checkTimeDelay) + " delay)</i>");
+                                 timeFormat(hornTime) + "  <i>(included extra " + timeFormat(hornTimeDelay) + " delay & +/- 5 seconds different from MouseHunt timer)</i>",
+                                 timeFormat(checkTime) + "  <i>(included extra " + timeFormat(checkTimeDelay) + " delay)</i>");
 
                     // check if user manaually sounded the horn
                     var scriptNode = document.getElementById("scriptNode");
@@ -5826,15 +5847,15 @@ function countdownTimer() {
                         eventLocationCheck();
                 } else {
                     displayTimer("Horn: " + timeFormat(hornTime) + " | Check: " + timeFormat(checkTime),
-                        timeFormat(hornTime) + "  <i>(lot faster than MouseHunt timer)</i>",
-                        timeFormat(checkTime) + "  <i>(included extra " + timeFormat(checkTimeDelay) + " delay)</i>");
+                                 timeFormat(hornTime) + "  <i>(lot faster than MouseHunt timer)</i>",
+                                 timeFormat(checkTime) + "  <i>(included extra " + timeFormat(checkTimeDelay) + " delay)</i>");
                 }
             } else {
                 // update timer
                 if (!aggressiveMode) {
                     displayTimer("Horn: " + timeFormat(hornTime),
-                        timeFormat(hornTime) + "  <i>(included extra " + timeFormat(hornTimeDelay) + " delay & +/- 5 seconds different from MouseHunt timer)</i>",
-                        "-");
+                                 timeFormat(hornTime) + "  <i>(included extra " + timeFormat(hornTimeDelay) + " delay & +/- 5 seconds different from MouseHunt timer)</i>",
+                                 "-");
 
                     // check if user manaually sounded the horn
                     var scriptNode = document.getElementById("scriptNode");
@@ -5855,14 +5876,19 @@ function countdownTimer() {
                         eventLocationCheck();
                 } else {
                     displayTimer("Horn: " + timeFormat(hornTime),
-                        timeFormat(hornTime) + "  <i>(lot faster than MouseHunt timer)</i>",
-                        "-");
+                                 timeFormat(hornTime) + "  <i>(lot faster than MouseHunt timer)</i>",
+                                 "-");
+
+                    // if the horn image is visible, why do we need to wait any more, sound the horn!
+                    soundHorn();
 
                     // agressive mode should sound the horn whenever it is possible to do so.
-                    var headerElement = document.getElementById(header).firstChild;
+                    var headerElement = document.querySelector('.huntersHornView');
                     if (headerElement) {
+                        var headerStatus = headerElement.querySelector('.huntersHornView__timerState.huntersHornView__timerState--type-ready')
+
                         // the horn image appear before the timer end
-                        if (headerElement.getAttribute('class').indexOf(hornReady) != -1) {
+                        if (headerStatus.checkVisibility()) {
                             // who care, blow the horn first!
                             soundHorn();
 
@@ -6395,23 +6421,23 @@ function embedTimer(targetPage) {
                 preferenceHTMLStr += '<td style="height:24px; text-align:right;" colspan="2">';
                 preferenceHTMLStr += '(Changes above this line only take place after user save the preference) ';
                 preferenceHTMLStr += '<input type="button" id="PreferenceSaveInput" value="Save" onclick="\
-				try {\
-				window.localStorage.setItem(\'AggressiveMode\', 		document.getElementById(\'AggressiveModeInput\').value);\
-				window.localStorage.setItem(\'HornTimeDelayMin\', 		document.getElementById(\'HornTimeDelayMinInput\').value);\
-				window.localStorage.setItem(\'HornTimeDelayMax\', 		document.getElementById(\'HornTimeDelayMaxInput\').value);\
-				window.localStorage.setItem(\'TrapCheck\', 				document.getElementById(\'TrapCheckInput\').value);\
-				window.localStorage.setItem(\'TrapCheckTimeDelayMin\',	document.getElementById(\'TrapCheckTimeDelayMinInput\').value);\
-				window.localStorage.setItem(\'TrapCheckTimeDelayMax\', 	document.getElementById(\'TrapCheckTimeDelayMaxInput\').value);\
-				window.localStorage.setItem(\'AutoSolveKR\',            document.getElementById(\'AutoSolveKRInput\').value);\
-				window.localStorage.setItem(\'AutoSolveKR\', 			document.getElementById(\'AutoSolveKRInput\').value);\
-				window.localStorage.setItem(\'AutoSolveKR\', 			document.getElementById(\'AutoSolveKRInput\').value);\
-				window.localStorage.setItem(\'AutoSolveKRDelayMin\', 	document.getElementById(\'AutoSolveKRDelayMinInput\').value);\
-				window.localStorage.setItem(\'AutoSolveKRDelayMax\', 	document.getElementById(\'AutoSolveKRDelayMaxInput\').value);\
-				window.localStorage.setItem(\'PauseLocation\', 			document.getElementById(\'PauseLocationInput\').value);\
-				window.localStorage.setItem(\'autoPopupKR\',            document.getElementById(\'autoPopKR\').value);\
-				setSessionToLocal();\
-				} catch(e) {console.log(e);}\
-				';
+try {\
+window.localStorage.setItem(\'AggressiveMode\', 		document.getElementById(\'AggressiveModeInput\').value);\
+window.localStorage.setItem(\'HornTimeDelayMin\', 		document.getElementById(\'HornTimeDelayMinInput\').value);\
+window.localStorage.setItem(\'HornTimeDelayMax\', 		document.getElementById(\'HornTimeDelayMaxInput\').value);\
+window.localStorage.setItem(\'TrapCheck\', 				document.getElementById(\'TrapCheckInput\').value);\
+window.localStorage.setItem(\'TrapCheckTimeDelayMin\',	document.getElementById(\'TrapCheckTimeDelayMinInput\').value);\
+window.localStorage.setItem(\'TrapCheckTimeDelayMax\', 	document.getElementById(\'TrapCheckTimeDelayMaxInput\').value);\
+window.localStorage.setItem(\'AutoSolveKR\',            document.getElementById(\'AutoSolveKRInput\').value);\
+window.localStorage.setItem(\'AutoSolveKR\', 			document.getElementById(\'AutoSolveKRInput\').value);\
+window.localStorage.setItem(\'AutoSolveKR\', 			document.getElementById(\'AutoSolveKRInput\').value);\
+window.localStorage.setItem(\'AutoSolveKRDelayMin\', 	document.getElementById(\'AutoSolveKRDelayMinInput\').value);\
+window.localStorage.setItem(\'AutoSolveKRDelayMax\', 	document.getElementById(\'AutoSolveKRDelayMaxInput\').value);\
+window.localStorage.setItem(\'PauseLocation\', 			document.getElementById(\'PauseLocationInput\').value);\
+window.localStorage.setItem(\'autoPopupKR\',            document.getElementById(\'autoPopKR\').value);\
+setSessionToLocal();\
+} catch(e) {console.log(e);}\
+';
 
                 //window.localStorage.setItem('PlayKingRewardSound', 	document.getElementById('PlayKingRewardSoundInput').value);
                 //window.localStorage.setItem('SaveKRImage', 			document.getElementById('SaveKRImageInput').value);
@@ -7879,8 +7905,8 @@ function embedTimer(targetPage) {
                 preferenceHTMLStr += '</td>';
                 preferenceHTMLStr += '<td style="height:24px">';
                 preferenceHTMLStr += '<select id="chooseOtherDoors" onChange="\
-				saveLaby();\
-				document.getElementById(\'typeOtherDoors\').disabled = (value == \'false\') ? \'disabled\' : \'\'; ">';
+saveLaby();\
+document.getElementById(\'typeOtherDoors\').disabled = (value == \'false\') ? \'disabled\' : \'\'; ">';
                 preferenceHTMLStr += '<option value="false">False</option>';
                 preferenceHTMLStr += '<option value="true">True</option>';
                 preferenceHTMLStr += '</select>&nbsp;&nbsp;<a title="Select a choosing type for non-focused doors"><b>Choosing Type:</b></a>&emsp;';
@@ -9257,7 +9283,7 @@ function soundHorn() {
     if (debug) {
         console.log(document.getElementById("mousehuntHud").cloneNode(true));
         console.log("huntTimer:");
-        console.log(document.getElementById("huntTimer").cloneNode(true));
+        // console.log(document.getElementById("huntTimer").cloneNode(true));
     }
 
     if (doubleCheckLocation()) {
@@ -9277,22 +9303,23 @@ function soundHorn() {
 
         if (!aggressiveMode) {
             // safety mode, check the horn image is there or not before sound the horn
-            var headerElement = document.getElementById(header);
+            var headerElement = document.querySelector('.huntersHornView');
 
             if (headerElement) {
-                headerElement = headerElement.firstChild;
-                var headerStatus = headerElement.getAttribute('class');
-                if (headerStatus.indexOf(hornReady) !== -1) {
+                // headerElement = headerElement.firstChild;
+                var headerStatus = headerElement.querySelector('.huntersHornView__timerState.huntersHornView__timerState--type-ready');
+                if (headerStatus.checkVisibility()) {
                     // found the horn image, let's sound the horn!
-                    if (debug) console.log("Header status prior to sounding horn: " + headerStatus);
+                    if (debug) console.log("Header status prior to sounding horn: " + headerStatus.textContent);
 
                     // update timer
                     displayTimer("Blowing The Horn...", "Blowing The Horn...", "Blowing The Horn...");
 
                     // simulate mouse click on the horn
-                    hornElement = document.getElementsByClassName(hornButton)[0].firstChild;
-                    fireEvent(hornElement, 'click');
-                    hornElement = null;
+                    // hornElement = headerStatus;
+                    // fireEvent(hornElement, 'click');
+                    // hornElement = null;
+                    sound_horn();
 
                     // NOB hunt until
                     NOBhuntsLeft--;
@@ -9306,43 +9333,43 @@ function soundHorn() {
                     window.setTimeout(function () {
                         afterSoundingHorn()
                     }, 5000);
-                } else if (headerStatus.indexOf("hornsounding") != -1 || headerStatus.indexOf("hornsounded") != -1) {
-                    // some one just sound the horn...
+                    //                 } else if (headerStatus.indexOf("hornsounding") != -1 || headerStatus.indexOf("hornsounded") != -1) {
+                    //                     // some one just sound the horn...
 
-                    // update timer
-                    displayTimer("Synchronizing Data...", "Someone had just sound the horn. Synchronizing data...", "Someone had just sound the horn. Synchronizing data...");
+                    //                     // update timer
+                    //                     displayTimer("Synchronizing Data...", "Someone had just sound the horn. Synchronizing data...", "Someone had just sound the horn. Synchronizing data...");
 
-                    // NOB hunt until
-                    NOBhuntsLeft--;
-                    nobStore(NOBhuntsLeft, 'huntsLeft');
+                    //                     // NOB hunt until
+                    //                     NOBhuntsLeft--;
+                    //                     nobStore(NOBhuntsLeft, 'huntsLeft');
 
-                    // clean up
-                    headerElement = null;
-                    headerStatus = null;
+                    //                     // clean up
+                    //                     headerElement = null;
+                    //                     headerStatus = null;
 
-                    // load the new data
-                    window.setTimeout(function () {
-                        afterSoundingHorn()
-                    }, 5000);
-                } else if (headerStatus.indexOf("hornwaiting") != -1) {
-                    // the horn is not appearing, let check the time again
+                    //                     // load the new data
+                    //                     window.setTimeout(function () {
+                    //                         afterSoundingHorn()
+                    //                     }, 5000);
+                    //                 } else if (headerStatus.indexOf("hornwaiting") != -1) {
+                    //                     // the horn is not appearing, let check the time again
 
-                    // update timer
-                    displayTimer("Synchronizing Data...", "Hunter horn is not ready yet. Synchronizing data...", "Hunter horn is not ready yet. Synchronizing data...");
+                    //                     // update timer
+                    //                     displayTimer("Synchronizing Data...", "Hunter horn is not ready yet. Synchronizing data...", "Hunter horn is not ready yet. Synchronizing data...");
 
-                    // sync the time again, maybe user already click the horn
-                    retrieveData();
+                    //                     // sync the time again, maybe user already click the horn
+                    //                     retrieveData();
 
-                    checkJournalDate();
+                    //                     checkJournalDate();
 
-                    // clean up
-                    headerElement = null;
-                    headerStatus = null;
+                    //                     // clean up
+                    //                     headerElement = null;
+                    //                     headerStatus = null;
 
-                    // loop again
-                    window.setTimeout(function () {
-                        countdownTimer()
-                    }, timerRefreshInterval * 1000);
+                    //                     // loop again
+                    //                     window.setTimeout(function () {
+                    //                         countdownTimer()
+                    //                     }, timerRefreshInterval * 1000);
                 } else {
                     // some one steal the horn!
 
@@ -9350,9 +9377,10 @@ function soundHorn() {
                     displayTimer("Synchronizing Data...", "Hunter horn is missing. Synchronizing data...", "Hunter horn is missing. Synchronizing data...");
 
                     // try to click on the horn
-                    hornElement = document.getElementsByClassName(hornButton)[0].firstChild;
-                    fireEvent(hornElement, 'click');
-                    hornElement = null;
+                    // hornElement = document.getElementsByClassName(hornButton)[0].firstChild;
+                    // fireEvent(hornElement, 'click');
+                    // hornElement = null;
+                    sound_horn();
 
                     // clean up
                     headerElement = null;
@@ -9377,7 +9405,8 @@ function soundHorn() {
             // aggressive mode, ignore whatever horn image is there or not, just sound the horn!
 
             // simulate mouse click on the horn
-            fireEvent(document.getElementsByClassName(hornButton)[0].firstChild, 'click');
+            // fireEvent(document.getElementsByClassName(hornButton)[0].firstChild, 'click');
+            sound_horn();
 
             // double check if the horn was already sounded
             window.setTimeout(function () {
@@ -9389,7 +9418,27 @@ function soundHorn() {
         embedTimer(false);
     }
 }
+function sound_horn() {
+    const horn = document.querySelector('.huntersHornView__horn');
+    if (horn) {
+        const clickEvent = new MouseEvent("mousedown", {
+            bubbles: true, // Bubble up the dom.
+            cancelable: true,
+        });
 
+        horn.dispatchEvent(clickEvent);
+
+        // Wait for the animation to finish.
+        setTimeout(() => {
+            const clickEvent = new MouseEvent("mouseup", {
+                bubbles: true, // Bubble up the dom.
+                cancelable: true,
+            });
+            horn.dispatchEvent(clickEvent);
+        }
+                   , 250);
+    }
+}
 function afterSoundingHorn() {
     if (debug) console.log("RUN %cafterSoundingHorn()", "color: #bada55");
     var scriptNode = document.getElementById("scriptNode");
@@ -9398,22 +9447,23 @@ function afterSoundingHorn() {
     }
     scriptNode = null;
 
-    var headerElement = document.getElementById(header);
+    var headerElement = document.querySelector('.huntersHornView');
     if (headerElement) {
         //if (isNewUI)
-        headerElement = headerElement.firstChild;
+        // headerElement = headerElement.firstChild;
         // double check if the horn image is still visible after the script already sound it
-        var headerStatus = headerElement.getAttribute('class');
-        if (headerStatus.indexOf(hornReady) != -1) {
+        var headerStatus = headerElement.querySelector('.huntersHornView__timerState.huntersHornView__timerState--type-ready');
+        if (headerStatus.checkVisibility()) {
             // seen like the horn is not functioning well
 
             // update timer
             displayTimer("Blowing The Horn Again...", "Blowing The Horn Again...", "Blowing The Horn Again...");
 
             // simulate mouse click on the horn
-            var hornElement = document.getElementsByClassName(hornButton)[0].firstChild;
-            fireEvent(hornElement, 'click');
-            hornElement = null;
+            // var hornElement = headerStatus;
+            // fireEvent(hornElement, 'click');
+            // hornElement = null;
+            sound_horn();
 
             // clean up
             headerElement = null;
@@ -9433,30 +9483,30 @@ function afterSoundingHorn() {
                     afterSoundingHorn()
                 }, 1000);
             }
-        } else if (headerStatus.indexOf("hornsounding") != -1) {
-            // the horn is already sound, but the network seen to slow on fetching the data
+            //         } else if (headerStatus.indexOf("hornsounding") != -1) {
+            //             // the horn is already sound, but the network seen to slow on fetching the data
 
-            // update timer
-            displayTimer("The horn sounding taken extra longer than normal...", "The horn sounding taken extra longer than normal...", "The horn sounding taken extra longer than normal...");
+            //             // update timer
+            //             displayTimer("The horn sounding taken extra longer than normal...", "The horn sounding taken extra longer than normal...", "The horn sounding taken extra longer than normal...");
 
-            // clean up
-            headerElement = null;
-            headerStatus = null;
+            //             // clean up
+            //             headerElement = null;
+            //             headerStatus = null;
 
-            // increase the horn retry counter and check if the script is caugh in loop
-            ++hornRetry;
-            if (hornRetry > hornRetryMax) {
-                // reload the page see if thing get fixed
-                reloadWithMessage("Detected script caught in loop. Reloading...", true);
+            //             // increase the horn retry counter and check if the script is caugh in loop
+            //             ++hornRetry;
+            //             if (hornRetry > hornRetryMax) {
+            //                 // reload the page see if thing get fixed
+            //                 reloadWithMessage("Detected script caught in loop. Reloading...", true);
 
-                // reset the horn retry counter
-                hornRetry = 0;
-            } else {
-                // check again later
-                window.setTimeout(function () {
-                    afterSoundingHorn()
-                }, 3000);
-            }
+            //                 // reset the horn retry counter
+            //                 hornRetry = 0;
+            //             } else {
+            //                 // check again later
+            //                 window.setTimeout(function () {
+            //                     afterSoundingHorn()
+            //                 }, 3000);
+            //             }
         } else {
             // everything look ok
 
@@ -9491,12 +9541,12 @@ function embedScript() {
     scriptNode.setAttribute('type', 'text/javascript');
     scriptNode.setAttribute('soundedHornAtt', 'false');
     scriptNode.innerHTML = 'function soundedHorn() {\
-    var scriptNode = document.getElementById("scriptNode");\
-    if (scriptNode) {\
-    	scriptNode.setAttribute("soundedHornAtt", "true");\
-    }\
-    scriptNode = null;\
-    }';
+var scriptNode = document.getElementById("scriptNode");\
+if (scriptNode) {\
+scriptNode.setAttribute("soundedHornAtt", "true");\
+}\
+scriptNode = null;\
+}';
 
     // find the head node and insert the script into it
     var headerElement;
@@ -9512,15 +9562,15 @@ function embedScript() {
     nobTestBetaUI();
 
     // change the function call of horn
-    var hornButtonLink = document.getElementsByClassName(hornButton)[0].firstChild;
-    var oriStr = hornButtonLink.getAttribute('onclick').toString();
-    var index = oriStr.indexOf('return false;');
-    var modStr = oriStr.substring(0, index) + 'soundedHorn();' + oriStr.substring(index);
+    var hornButtonLink = document.querySelector('.huntersHornView__horn');
+    // var oriStr = hornButtonLink.getAttribute('onclick').toString();
+    // var index = oriStr.indexOf('return false;');
+    var modStr = 'soundedHorn();';
     hornButtonLink.setAttribute('onclick', modStr);
 
     hornButtonLink = null;
-    oriStr = null;
-    index = null;
+    // oriStr = null;
+    // index = null;
     modStr = null;
 }
 
@@ -11252,56 +11302,56 @@ function nobRaffle() {
 };
 
 function nobPresent() {
-var intState = 0;
-var i;
-var nobPresGiveUp = 10;
-var nobPresInt = window.setInterval(function () {
-try {
-if (intState == 0 && !($('.tabs a:eq(1)').length > 0)) {
-$('#hgbar_freegifts').click();
-intState = 1;
-return;
-}else if (intState != 2) {
-var presents = $('a[class~="return"]');
-for (i = presents.length - 1; i >= 0; i--) {
-presents[i].click();
-}
-var presents = $('a[class~="claim"]');
-for (i = presents.length - 1; i >= 0; i--) {
-presents[i].click();
-}
-intState = 2;
-return;
-} else if (intState == 2) {
-intState = 3;
-} else {
-intState = -1;
-}
-} catch (e) {
-console.log("Present interval error: " + e + ", retrying in 2 seconds. Giving up in " + (nobPresGiveUp * 2) + " seconds.");
-if (nobPresGiveUp < 1) {
-intState = -1;
-} else {
-nobPresGiveUp--;
-}
-} finally {
-if (intState == 3) {
-$("a.giftSelectorView-inboxHeader-closeButton")[0].click();
-window.clearInterval(nobPresInt);
-nobPresInt = null;
-intState = null;
-i = null;
-return;
-} else if (intState == -1) {
-console.log("Present error, user pls resolve yourself");
-window.clearInterval(nobPresInt);
-nobPresInt = null;
-intState = null;
-i = null;
-return;
-}
-}
-}, 2000);
+    var intState = 0;
+    var i;
+    var nobPresGiveUp = 10;
+    var nobPresInt = window.setInterval(function () {
+        try {
+            if (intState == 0 && !($('.tabs a:eq(1)').length > 0)) {
+                $('#hgbar_freegifts').click();
+                intState = 1;
+                return;
+            }else if (intState != 2) {
+                var presents = $('a[class~="return"]');
+                for (i = presents.length - 1; i >= 0; i--) {
+                    presents[i].click();
+                }
+                var presents = $('a[class~="claim"]');
+                for (i = presents.length - 1; i >= 0; i--) {
+                    presents[i].click();
+                }
+                intState = 2;
+                return;
+            } else if (intState == 2) {
+                intState = 3;
+            } else {
+                intState = -1;
+            }
+        } catch (e) {
+            console.log("Present interval error: " + e + ", retrying in 2 seconds. Giving up in " + (nobPresGiveUp * 2) + " seconds.");
+            if (nobPresGiveUp < 1) {
+                intState = -1;
+            } else {
+                nobPresGiveUp--;
+            }
+        } finally {
+            if (intState == 3) {
+                $("a.giftSelectorView-inboxHeader-closeButton")[0].click();
+                window.clearInterval(nobPresInt);
+                nobPresInt = null;
+                intState = null;
+                i = null;
+                return;
+            } else if (intState == -1) {
+                console.log("Present error, user pls resolve yourself");
+                window.clearInterval(nobPresInt);
+                nobPresInt = null;
+                intState = null;
+                i = null;
+                return;
+            }
+        }
+    }, 2000);
 };
 
 // CALCULATE TIMER *******************************
